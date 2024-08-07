@@ -60,11 +60,19 @@ public class App {
         int array[] = { 100, 30, 50, 40, 10 };
 
         Helper.showArray(array);
-        // bubbleSort(array);
+<<<<<<< HEAD
+        bubbleSort(array);
         // selectionSort(array);
         // insertionSort(array);
         // QuickSort.sort(array);
-        MergeSort.sort(array);
+        // MergeSort.sort(array);
+=======
+        bubbleSort(array);
+        // selectionSort(array);
+        // insertionSort(array);
+        // QuickSort.sort(array);
+        // MergeSort.sort(array);
+>>>>>>> ce7fc069d5a9b0ef56163ef7b872e12185c02505
         Helper.showArray(array);
     }
 
