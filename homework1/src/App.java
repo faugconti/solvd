@@ -14,7 +14,7 @@ public class App {
             swapped = false;
             for (int i = 0; i < range; i++) {
                 if (a[i] > a[i + 1]) {
-                    swap(a, i, i + 1);
+                    Helper.swap(a, i, i + 1);
                     swapped = true;
                 }
             }
@@ -35,7 +35,7 @@ public class App {
                 if (a[posMin] > a[j])
                     posMin = j;
             if (i != posMin)
-                swap(a, i, posMin);
+                Helper.swap(a, i, posMin);
         }
     }
 
@@ -49,33 +49,23 @@ public class App {
         for (int i = 1; i < a.length; i++) {
             j = i;
             while (j > 0 && a[j] < a[j - 1]) 
-                swap(a, j, --j); 
+                Helper.swap(a, j, --j); 
         }
     }
 
-    public static void swap(int a[], int pos1, int pos2) {
-        int aux = a[pos1];
-        a[pos1] = a[pos2];
-        a[pos2] = aux;
-    }
-
-    public static void showArray(int a[]) {
-        for (int i = 0; i < a.length; i++)
-            System.out.printf("%d ", a[i]);
-        System.out.println();
-    }
+    
 
     public static void main(String[] args) throws Exception {
 
         int array[] = { 100, 30, 50, 40, 10 };
 
-        showArray(array);
+        Helper.showArray(array);
         // bubbleSort(array);
         // selectionSort(array);
         // insertionSort(array);
-        QuickSort.sort(array);
-        // MergeSort.sort(array);
-        showArray(array);
+        // QuickSort.sort(array);
+        MergeSort.sort(array);
+        Helper.showArray(array);
     }
 
 }
