@@ -1,4 +1,4 @@
- 
+
 public class App {
 
     public static void bubbleSort(int a[]) {
@@ -20,7 +20,6 @@ public class App {
             }
             range--;
         }
-
     }
 
     public static void selectionSort(int a[]) {
@@ -49,14 +48,18 @@ public class App {
         int j;
         for (int i = 1; i < a.length; i++) {
             j = i;
-            while (j > 0 && a[j] < a[j - 1]) {
-                swap(a, j, j - 1);
-                j--;
-            }
+            while (j > 0 && a[j] < a[j - 1]) 
+                swap(a, j, --j); 
         }
     }
 
-    
+    public static void quickSort(int a[]) {
+        /*
+         * quickSort
+         * Time complexity best-case -> O(N)
+         * Time complexity worst-case -> O(N²)
+         */
+    }
 
     private static void swap(int a[], int pos1, int pos2) {
         int aux = a[pos1];
@@ -65,10 +68,8 @@ public class App {
     }
 
     public static void showArray(int a[]) {
-        for (int i = 0; i < a.length; i++) {
-            System.out.print(a[i]);
-            System.out.print(" ");
-        }
+        for (int i = 0; i < a.length; i++)
+            System.out.printf("%d ", a[i]);
         System.out.println();
     }
 
@@ -80,7 +81,8 @@ public class App {
         // bubbleSort(array);
         // selectionSort(array);
         // insertionSort(array);
-        MergeSort.sort(array);
+        // quickSort(array);
+        // MergeSort.sort(array);
         showArray(array);
     }
 
