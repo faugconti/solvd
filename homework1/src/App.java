@@ -53,15 +53,7 @@ public class App {
         }
     }
 
-    public static void quickSort(int a[]) {
-        /*
-         * quickSort
-         * Time complexity best-case -> O(N)
-         * Time complexity worst-case -> O(N²)
-         */
-    }
-
-    private static void swap(int a[], int pos1, int pos2) {
+    public static void swap(int a[], int pos1, int pos2) {
         int aux = a[pos1];
         a[pos1] = a[pos2];
         a[pos2] = aux;
@@ -81,7 +73,7 @@ public class App {
         // bubbleSort(array);
         // selectionSort(array);
         // insertionSort(array);
-        // quickSort(array);
+        QuickSort.sort(array);
         // MergeSort.sort(array);
         showArray(array);
     }

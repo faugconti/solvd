@@ -36,5 +36,4 @@ public class MergeSort {
         while (j < right.length) 
             a[k++] = right[j++];    
     }
-
 }
