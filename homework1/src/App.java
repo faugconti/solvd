@@ -1,6 +1,6 @@
+ 
 public class App {
 
-    
     public static void bubbleSort(int a[]) {
         /*
          * BubbleSort
@@ -56,6 +56,8 @@ public class App {
         }
     }
 
+    
+
     private static void swap(int a[], int pos1, int pos2) {
         int aux = a[pos1];
         a[pos1] = a[pos2];
@@ -78,6 +80,7 @@ public class App {
         // bubbleSort(array);
         // selectionSort(array);
         // insertionSort(array);
+        MergeSort.sort(array);
         showArray(array);
     }
 
