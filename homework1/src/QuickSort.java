@@ -16,7 +16,7 @@ public class QuickSort {
                 j--;
             }
             if(i<=j)
-                App.swap(a,i++,j--);
+                Helper.swap(a,i++,j--);
         }
         if (lo<j)
             quickSort(a, lo,j);
