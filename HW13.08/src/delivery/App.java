@@ -3,6 +3,7 @@ package delivery;
 import java.time.LocalDate;
 import java.util.Date;
 
+import delivery.Models.Address;
 import delivery.Models.Warehouse;
 import delivery.Models.Order.ExpressOrder;
 import delivery.Models.Order.InternationalOrder;
@@ -12,40 +13,56 @@ import delivery.Models.Person.DeliveryPerson;
 import delivery.Models.Person.Employee;
 import delivery.Models.Person.Manager;
 import delivery.Models.Person.StaffMember;
-import delivery.enums.Payments;
+import delivery.enums.PaymentType;
 
 public class App {
-    public static void main(String[] args) throws Exception {
+        public static void main(String[] args) throws Exception {
 
-        // create 1 warehouse
-        Warehouse headquarters = new Warehouse("Main street 50", 3000);
+                Address warehouseAddr = new Address("USA", "00034", "CA", "Main street 50");
 
-        // create 3 employee persons: 1 Manager, 1 driver and 1 staff
+                Address customer1Addr = new Address("USA", "94105", "SF", "Sunshine boulevard 300");
+                Address managerAddr = new Address("Canada", "G1A0A9", "QC", "Old Ontario 43A");
+                Address driverAddr = new Address("USA", "90047", "LA", "1404 W 105th St");
+                Address staffAddr = new Address("USA", "92648", "CA", "18202 Parktree Cir");
 
-        Manager manager1 = new Manager("John", "John@delivery.com", "Bacon street 123", 5000,
-                new Date(System.currentTimeMillis()), headquarters, 20);
+                Address order1Addr = new Address("CN", "51000", "CQ", "Bao Shan Ba Cun 152hao 706shi");
+                Address order2Addr = new Address("USA", "94445", "LA", "5010 11th Ave, Crenshaw");
+                Address order3Addr = new Address("USA", "92648", "CA", "509 Esplanade, Redondo Beach");
 
-        Employee StaffMember1 = new StaffMember("Jack", "Jack_HR@delivery.com", "Park Avenue 653", 2000,
-                new Date(System.currentTimeMillis()), false, headquarters);
+                // create 1 warehouse
+                Warehouse headquarters = new Warehouse(warehouseAddr, 3000);
 
-        Employee driver1 = new DeliveryPerson("Samuel", "samuel@delivery.com", "24th street 30", 3000,
-                new Date(System.currentTimeMillis()), 4.0F, true);
+                // create 3 employee persons: 1 Manager, 1 driver and 1 staff
 
-        // create 1 person customer
-        Customer customer1 = new Customer("Luois Volh", "luvolh@gmail.com", "Drive avenue 3200");
-        customer1.setFavoritePaymentType(Payments.PAYPAL);
+                Manager manager1 = new Manager("Eugene Levy", "eugeneL@delivery.com", managerAddr, 5000,
+                                new Date(System.currentTimeMillis()), headquarters, 20);
 
-        InternationalOrder order1 = new InternationalOrder(1, customer1, new Date(System.currentTimeMillis()),
-                customer1.getAddress(), " Eastern Rd 32, Nassau", "AR3201243BN", "Bahamas");
+                Employee StaffMember1 = new StaffMember("Jack", "Jack_HR@delivery.com", staffAddr, 2000,
+                                new Date(System.currentTimeMillis()), false, headquarters);
 
-        ExpressOrder order2 = new ExpressOrder(2, customer1, new Date(System.currentTimeMillis()),
-                customer1.getAddress(), "Lazy street 32", 5, 24);
+                Employee driver1 = new DeliveryPerson("Samuel Gimenez", "samuel@delivery.com", driverAddr, 3000,
+                                new Date(System.currentTimeMillis()), 4.0F, true);
 
-        SubscriptionOrder order3 = new SubscriptionOrder(3, customer1, new Date(System.currentTimeMillis()), customer1.getAddress(),
-        "Palm street 100", null, new Date(System.currentTimeMillis()),
-                LocalDate.now().plusMonths(1), 1);
+                // create 1 person customer
+                Customer customer1 = new Customer("Luois Volh", "luvolh@gmail.com", customer1Addr);
+                customer1.setFavoritePaymentType(PaymentType.PAYPAL);
 
-        customer1.listOrders();
+                InternationalOrder order1 = new InternationalOrder(1, customer1, new Date(System.currentTimeMillis()),
+                                customer1.getAddress(), order1Addr, 900F, "US4302010CN", "China");
 
-    }
+                ExpressOrder order2 = new ExpressOrder(2, customer1, new Date(System.currentTimeMillis()),
+                                customer1.getAddress(), order2Addr, 543F, 24, 5);
+
+                SubscriptionOrder order3 = new SubscriptionOrder(3, customer1, new Date(System.currentTimeMillis()),
+                                customer1.getAddress(), order3Addr, 100F, LocalDate.now().plusMonths(1),
+                                new Date(System.currentTimeMillis()),
+                                LocalDate.now().plusMonths(1), 1);
+
+                customer1.listOrders();
+                System.out.println(customer1);
+                System.out.println(manager1);
+                System.out.println(driver1);
+                System.out.println(StaffMember1);
+
+        }
 }

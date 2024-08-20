@@ -2,6 +2,7 @@ package delivery.Models.Person;
 
 import java.util.Date;
 
+import delivery.Models.Address;
 import delivery.Models.Warehouse;
 import delivery.enums.Role;
 
@@ -9,7 +10,7 @@ public class Manager extends Employee {
     private Warehouse currentWarehouse;
     private int employees; // at charge of how many workers?
 
-    public Manager(String name, String email, String address, double salary,
+    public Manager(String name, String email, Address address, double salary,
             Date hireDate, Warehouse warehouse, int employees) {
         super(name, email, address, salary, hireDate, Role.MANAGER);
         this.currentWarehouse = warehouse;
@@ -38,5 +39,7 @@ public class Manager extends Employee {
     public void setNumberOfEmployees(int employees) {
         this.employees = employees;
     }
+
+     
 
 }

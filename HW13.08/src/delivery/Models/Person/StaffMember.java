@@ -2,6 +2,7 @@ package delivery.Models.Person;
 
 import java.util.Date;
 
+import delivery.Models.Address;
 import delivery.Models.Warehouse;
 import delivery.enums.Role;
 
@@ -10,7 +11,7 @@ public class StaffMember extends Employee {
     private boolean isPartTime;
     private Warehouse currentWarehouse;
 
-    public StaffMember(String name, String email, String address, double salary, Date hireDate, boolean isPartTime,
+    public StaffMember(String name, String email, Address address, double salary, Date hireDate, boolean isPartTime,
     Warehouse warehouse) {
         super(name, email, address, salary, hireDate, Role.WAREHOUSE_WORKER);
         this.isPartTime = isPartTime;

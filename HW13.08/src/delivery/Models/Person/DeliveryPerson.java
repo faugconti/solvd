@@ -1,13 +1,14 @@
 package delivery.Models.Person;
 import java.util.Date;
 
+import delivery.Models.Address;
 import delivery.enums.Role;
 
 public class DeliveryPerson extends Employee {
     private float rating;
     private Boolean isAvailable;
 
-    public DeliveryPerson(String name, String email, String address, double salary, Date hireDate, float rating,
+    public DeliveryPerson(String name, String email, Address address, double salary, Date hireDate, float rating,
             Boolean isAvailable) {
         super(name, email, address, salary, hireDate, Role.DRIVER);
         this.rating = rating;

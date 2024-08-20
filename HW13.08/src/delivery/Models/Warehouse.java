@@ -1,10 +1,10 @@
 package delivery.Models;
 
 public class Warehouse {
-    private String location;
+    private Address location;
     private int capacity; //m²
 
-    public Warehouse(String location, int capacity) {
+    public Warehouse(Address location, int capacity) {
         this.location = location;
         this.capacity = capacity;
     }
@@ -13,7 +13,7 @@ public class Warehouse {
         return capacity;
     }
 
-    public String getLocation() {
+    public Address getLocation() {
         return location;
     }
 
@@ -21,7 +21,7 @@ public class Warehouse {
         this.capacity = capacity;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Address location) {
         this.location = location;
     }
 

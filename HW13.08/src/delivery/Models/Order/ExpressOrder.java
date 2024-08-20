@@ -2,6 +2,7 @@ package delivery.Models.Order;
 
 import java.util.Date;
 
+import delivery.Models.Address;
 import delivery.Models.Person.Customer;
 
 public class ExpressOrder extends Order {
@@ -9,20 +10,23 @@ public class ExpressOrder extends Order {
     private int guaranteedTime; // in hours
     private int priorityLevel; // 1-5
 
-    public ExpressOrder(int orderID, Customer sender, Date creationDate, String origin, String destination,
+    public ExpressOrder(int orderID, Customer sender, Date creationDate, Address origin, Address destination, float weight,
             int guaranteedTime, int priorityLevel) {
 
-        super(orderID, sender, creationDate, origin, destination);
+        super(orderID, sender, creationDate, origin, destination,weight);
         this.priorityLevel = priorityLevel;
         this.guaranteedTime = guaranteedTime;
+        super.price = calculatePrice();
     }
 
-    public ExpressOrder(Order order, int priorityLevel, int guaranteedTime) {
-        super(order.getOrderID(), order.getSender(), order.getCreationDate(), order.getOrigin(),
-                order.getDestination());
-        this.priorityLevel = priorityLevel;
-        this.guaranteedTime = guaranteedTime;
+    @Override
+    public float calculatePrice() {
+        // 5 USD PER KILOGRAM + 3 BASE PRICE
+        float price = 3.0F+ (super.getWeight()/1000)*5;
+        // super.setPrice(price);
+        return price;
     }
+
 
     public void setGuaranteedTime(int guaranteedTime) {
         this.guaranteedTime = guaranteedTime;
@@ -42,7 +46,6 @@ public class ExpressOrder extends Order {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
         return super.toString()+" Type: "+"Express Order";
     }
 
