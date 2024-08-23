@@ -1,6 +1,6 @@
 package delivery.Models;
 
-public class Address {
+public final class Address {
     private String country;
     private String zipCode;
     private String state;

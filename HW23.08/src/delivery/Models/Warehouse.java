@@ -2,7 +2,8 @@ package delivery.Models;
 
 public class Warehouse {
     private Address location;
-    private int capacity; //m²
+
+    private final int capacity; // m²
 
     public Warehouse(Address location, int capacity) {
         this.location = location;
@@ -17,9 +18,9 @@ public class Warehouse {
         return location;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
+    // public void setCapacity(int capacity) {
+    //     this.capacity = capacity;
+    // }
 
     public void setLocation(Address location) {
         this.location = location;

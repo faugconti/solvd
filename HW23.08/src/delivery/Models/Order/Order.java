@@ -1,13 +1,15 @@
 package delivery.Models.Order;
 
 import java.util.Date;
-
+import delivery.interfaces.Deliverable;
 import delivery.Models.Address;
 import delivery.Models.Person.Customer;
 import delivery.Models.Person.DeliveryPerson;
+import delivery.Models.Service.NotificationService;
+import delivery.enums.Message;
 import delivery.enums.OrderStatus;
 
-public abstract class Order {
+public abstract class Order implements Deliverable {
     private int orderID;
     private Customer sender;
     private Date creationDate;
@@ -17,8 +19,14 @@ public abstract class Order {
     protected float price;
     protected OrderStatus status;
     private DeliveryPerson carrier;
+    public static int currentOfferings;
 
-    public Order(int orderID, Customer sender, Date creationDate, Address origin, Address destination, float weight) {
+    static{
+        currentOfferings = 3;
+    }
+
+    public Order(int orderID, Customer sender, Date creationDate, Address origin, Address destination, float weight,
+            DeliveryPerson carrier) {
         this.orderID = orderID;
         this.sender = sender;
         this.creationDate = creationDate;
@@ -26,8 +34,13 @@ public abstract class Order {
         this.origin = origin;
         this.status = OrderStatus.DRAFT;
         this.weight = weight; // in grams
+        if (carrier != null) {
+            this.carrier = carrier;
+            carrier.setCurrentOrder(this);
+        }
         sender.addOrder(this);
     }
+
 
     public abstract float calculatePrice();
     // base price + weight price
@@ -106,6 +119,35 @@ public abstract class Order {
 
     @Override
     public String toString() {
-        return "Order ID: " + this.orderID;
+        return "Order ID: " + this.orderID+" status:"+this.status+"  ";
     }
+
+    @Override
+    public void startDelivery() {
+        if (this.carrier != null && this.status == OrderStatus.READY) {
+            this.status = OrderStatus.INPROGRESS;
+            NotificationService.sendNotification(this.carrier, Message.START_DELIVERY);
+            NotificationService.sendNotification(this.sender, Message.START_DELIVERY);
+            // System.out.println("Order " + this.orderID + " delivery started.");
+        } else {
+            System.out.println("Order " + this.orderID + " is not ready for delivery.");
+        }
+    }
+
+    @Override
+    public void completeDelivery() {
+        if (this.carrier != null && this.status == OrderStatus.INPROGRESS) {
+            this.status = OrderStatus.COMPLETED;
+            // System.out.println("Order " + this.orderID + " delivery completed.");
+            NotificationService.sendNotification(this.sender, Message.END_DELIVERY);
+        } else {
+            System.out.println("Order " + this.orderID + " cannot be completed. Current status: " + this.status);
+        }
+    }
+
+    @Override
+    public boolean isDelivered() {
+        return this.status == OrderStatus.COMPLETED;
+    }
+
 }

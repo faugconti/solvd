@@ -5,13 +5,19 @@ import java.util.List;
 
 import delivery.Models.Address;
 import delivery.Models.Order.Order;
+import delivery.enums.Message;
+import delivery.enums.OrderStatus;
 import delivery.enums.PaymentType;
+import delivery.interfaces.Notifiable;
+import delivery.interfaces.Payable;
 
-public class Customer extends Person {
+public class Customer extends Person implements Payable, Notifiable {
 
     private PaymentType favoritePaymentType;
     private List<Order> orders;
     protected boolean isSubscribed;
+
+     
 
     public Customer(String name, String email, Address address) {
         super(name, email, address);
@@ -91,9 +97,24 @@ public class Customer extends Person {
         boolean paymentEquals = (this.favoritePaymentType == null && other.favoritePaymentType == null)
                 || (this.favoritePaymentType != null && this.favoritePaymentType.equals(other.favoritePaymentType));
         boolean subscriptionEquals = (this.isSubscribed == other.isSubscribed);
-        boolean ordersEquals = this.orders.containsAll(other.orders) && other.orders.containsAll(this.orders); //o(n²)
+        boolean ordersEquals = this.orders.containsAll(other.orders) && other.orders.containsAll(this.orders); // o(n²)
 
         return paymentEquals && subscriptionEquals && ordersEquals;
+    }
+
+    @Override
+    public void payOrder(Order order) {
+        // order belongs to customer and is unpaid?
+        if (orders.contains(order) && order.status() == OrderStatus.DRAFT) {
+            System.out.println("[Customer] Payment of the order #" + order.getOrderID() + " $" + order.getPrice()
+                    + " processed using " + this.favoritePaymentType);
+            order.setstatus(OrderStatus.READY);
+        }
+    }
+
+    @Override
+    public void receiveNotification(Message message) {
+        System.out.println("[Customer] Reading new message: " + message);
     }
 
 }

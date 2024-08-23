@@ -5,8 +5,10 @@ import java.util.Date;
 
 import delivery.Models.Address;
 import delivery.Models.Person.Customer;
+import delivery.Models.Person.DeliveryPerson;
+import delivery.interfaces.Schedulable;
 
-public class SubscriptionOrder extends Order {
+public class SubscriptionOrder extends Order implements Schedulable {
 
     private LocalDate nextDelivery;
     private Date subscriptionStartDate;
@@ -16,10 +18,11 @@ public class SubscriptionOrder extends Order {
     public SubscriptionOrder(int orderID, Customer sender, Date creationDate, Address origin, Address destination,
             float weight,
             LocalDate nextDelivery, Date subscriptionStartDate, LocalDate subscriptionDuration,
-            int frequency) {
-        super(orderID, sender, creationDate, origin, destination, weight);
+            int frequency, DeliveryPerson carrier) {
+        super(orderID, sender, creationDate, origin, destination, weight, carrier);
         this.nextDelivery = nextDelivery;
         this.subscriptionDuration = subscriptionDuration;
+        this.frequency = frequency;
         this.subscriptionStartDate = subscriptionStartDate;
         super.price = calculatePrice();
 
@@ -36,10 +39,18 @@ public class SubscriptionOrder extends Order {
     // this.subscriptionStartDate = subscriptionStartDate;
     // }
 
+    private static class SubscriptionUtils {
+
+        public static boolean checkDates(LocalDate endDate, LocalDate startDate) {
+            return startDate.compareTo(endDate) > 0;
+        }
+
+    }
+
     @Override
     public float calculatePrice() {
         // TODO Auto-generated method stub
-        float price = 3 * this.frequency;
+        float price = 3.0F * this.frequency;
         // super.setPrice(price);
         return price;
     }
@@ -78,8 +89,27 @@ public class SubscriptionOrder extends Order {
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
         return super.toString() + " Type: " + "Subscription Order";
+    }
+
+    @Override
+    public void scheduleDelivery(LocalDate deliveryDate) {
+        if (SubscriptionUtils.checkDates(deliveryDate, this.subscriptionDuration)) {
+            this.nextDelivery = deliveryDate;
+            // System.out.println("Delivery scheduled for: " + this.getScheduledDate());
+        } else {
+            System.out.println("New delivery date " + deliveryDate
+                    + " exceeds the duration of the Subscription ending @ " + subscriptionDuration);
+        }
+    }
+
+    @Override
+    public LocalDate getScheduledDate() {
+        if (this.nextDelivery != null) {
+            System.out.println("Next delivery will be @" + nextDelivery);
+            return nextDelivery;
+        } else
+            return null;
     }
 
 }
