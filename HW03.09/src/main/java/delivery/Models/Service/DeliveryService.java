@@ -42,34 +42,35 @@ public class DeliveryService {
                 break;
             case ("3"):
                 // String searchName;
-                MyLinkedList<Order> orders = company.getOrders();
-                MenuService.printMenu(MenuOption.ADD_CUSTOMER);
-                int input = MenuService.getIntegerInput();
-                if (input == 1) {
-                    Customer customer = selectCustomer(company.getCustomers());
-                    MenuService.printMenu(MenuOption.ADD_ORDER);
-                    
-                    // change order
-                    orders.add(createOrder(customer));
-                } else if (input == 2) {
-                    String searchName = MenuService.askForInput("Customer name: ");
-                    try {
-                        Customer customer = findCustomerByName(company, searchName);
-                        MenuService.printMenu(MenuOption.ADD_ORDER);
-                        orders.add(createOrder(customer));
-                    } catch (PersonNotFoundException exc) {
-                        logger.error("Error finding your customer: " + searchName);
-                        break; // back to main menu
-                    }
+                // MyLinkedList<Order> orders = company.getOrders();
+                // MenuService.printMenu(MenuOption.ADD_CUSTOMER);
+                // int input = MenuService.getIntegerInput();
+                // if (input == 1) {
+                //     Customer customer = selectCustomer(company.getCustomers());
+                //     MenuService.printMenu(MenuOption.ADD_ORDER);
 
-                } else {
-                    break; // back to main menu
-                }
-                try {
-                    writeOrdersToFile(orders, fileName);
-                } catch (OrderWriteException exc) {
-                    logger.error("Failed to write orders to file: " + exc.getMessage());
-                }
+                //     // change order
+                //     orders.add(createOrder(customer));
+                // } else if (input == 2) {
+                //     String searchName = MenuService.askForInput("Customer name: ");
+                //     try {
+                //         Customer customer = findCustomerByName(company, searchName);
+                //         MenuService.printMenu(MenuOption.ADD_ORDER);
+                //         orders.add(createOrder(customer));
+                //     } catch (PersonNotFoundException exc) {
+                //         logger.error("Error finding your customer: " + searchName);
+                //         break; // back to main menu
+                //     }
+
+                // } else {
+                //     break; // back to main menu
+                // }
+                // try {
+                //     writeOrdersToFile(orders, fileName);
+                // } catch (OrderWriteException exc) {
+                //     logger.error("Failed to write orders to file: " + exc.getMessage());
+                // }
+                manageOrders(company);
                 break;
             case ("4"):
                 showCompanyInformation(company);
@@ -115,6 +116,87 @@ public class DeliveryService {
     private static void showCompanyInformation(DeliveryCompany company) {
         System.out.println("\f");
         System.out.println(company);
+    }
+
+    private static void manageOrders(DeliveryCompany company) {
+        MyLinkedList<Order> orders = company.getOrders();
+        while (true) {
+            MenuService.printMenu(MenuOption.ADD_ORDER);
+            int input = MenuService.getIntegerInput();
+            switch (input) {
+                case 1:
+                    addNewOrder(company, orders);
+                    break;
+                case 2:
+                    payForOrder(orders);
+                    break;
+                case 3:
+                    removeOrder(orders);
+                    break;
+                case 4:
+                    return; // back to main menu
+                default:
+                    System.out.println("Wrong option, try again.");
+            }
+        }
+    }
+
+    private static void addNewOrder(DeliveryCompany company, MyLinkedList<Order> orders) {
+        MenuService.printMenu(MenuOption.ADD_CUSTOMER);
+        int customerInput = MenuService.getIntegerInput();
+        if (customerInput == 1) {
+            Customer customer = selectCustomer(company.getCustomers());
+            orders.add(createOrder(customer));
+        } else if (customerInput == 2) {
+            String searchName = MenuService.askForInput("Customer name: ");
+            try {
+                Customer customer = findCustomerByName(company, searchName);
+                orders.add(createOrder(customer));
+            } catch (PersonNotFoundException exc) {
+                logger.error("Error finding customer: " + searchName);
+            }
+        }
+        try {
+            writeOrdersToFile(orders, fileName);
+        } catch (OrderWriteException exc) {
+            logger.error("Failed to write orders to file: " + exc.getMessage());
+        }
+    }
+
+    private static void removeOrder(MyLinkedList<Order> orders) {
+        System.out.print("Please enter Order ID to remove: ");
+        int orderId = MenuService.getIntegerInput();
+        Order orderToRemove = null;
+        for (Order order : orders) {
+            if (order.getOrderID() == orderId) {
+                orderToRemove = order;
+                break;
+            }
+        }
+        if (orderToRemove != null) {
+            orderToRemove.getSender().getOrders().remove(orderToRemove); // remove in customer?
+            orders.remove(orderToRemove);
+            logger.info("Order " + orderId + " has been removed.");
+        } else {
+            logger.warn("Order not found.");
+        }
+    }
+
+    private static void payForOrder(MyLinkedList<Order> orders) {
+        System.out.print("Please enter Order ID to pay: ");
+        int orderId = MenuService.getIntegerInput();
+        for (Order order : orders) {
+            if (order.getOrderID() == orderId) {
+                if (order.status() == OrderStatus.DRAFT) {
+                    order.setstatus(OrderStatus.READY);
+                    logger.info("Order " + orderId + " has been paid.");
+                } else {
+                    logger.warn("Order " + orderId + " is already paid.");
+                }
+                return;
+            }
+        }
+        logger.error("Error: Order not found.");
     }
 
     private static Order createOrder(Customer customer) {

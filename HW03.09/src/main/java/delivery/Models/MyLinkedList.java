@@ -137,16 +137,16 @@ public class MyLinkedList<T> implements Iterable<T> {
             return true;
         }
 
-        Node<T> current = head;
+        Node<T> aux = head;
         Node<T> prev = null;
-        while (current != null) {
-            if (current.data.equals(o)) {
-                prev.next = current.next;
+        while (aux != null) {
+            if (aux.data.equals(o)) {
+                prev.next = aux.next;
                 size--;
                 return true;
             }
-            prev = current;
-            current = current.next;
+            prev = aux;
+            aux = aux.next;
         }
         return false;
     }
