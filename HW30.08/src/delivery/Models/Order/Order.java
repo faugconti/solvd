@@ -9,8 +9,13 @@ import delivery.Models.Service.NotificationService;
 import delivery.enums.Message;
 import delivery.enums.OrderStatus;
 import delivery.exceptions.InvalidOrderException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class Order implements Deliverable {
+
+    private static final Logger logger = LogManager.getLogger(Order.class);
+
     private int orderID;
     private Customer sender;
     private Date creationDate;
@@ -22,7 +27,7 @@ public abstract class Order implements Deliverable {
     private DeliveryPerson carrier;
     public static int currentOfferings;
 
-    static{
+    static {
         currentOfferings = 3;
     }
 
@@ -41,7 +46,6 @@ public abstract class Order implements Deliverable {
         }
         sender.addOrder(this);
     }
-
 
     public abstract float calculatePrice();
     // base price + weight price
@@ -120,11 +124,11 @@ public abstract class Order implements Deliverable {
 
     @Override
     public String toString() {
-        return "Order ID: " + this.orderID+" status:"+this.status+"  ";
+        return "Order ID: " + this.orderID + " status:" + this.status + "  ";
     }
 
     public void validate() throws InvalidOrderException {
-        if (this.getOrderID()==0) {
+        if (this.getOrderID() == 0) {
             throw new InvalidOrderException("Order ID cannot be zero");
         }
         if (this.getSender() == null) {
@@ -133,7 +137,7 @@ public abstract class Order implements Deliverable {
         if (this.getPrice() <= 0) {
             throw new InvalidOrderException("Order total must be greater than zero");
         }
-        
+
     }
 
     @Override
@@ -144,7 +148,7 @@ public abstract class Order implements Deliverable {
             NotificationService.sendNotification(this.sender, Message.START_DELIVERY);
             // System.out.println("Order " + this.orderID + " delivery started.");
         } else {
-            System.out.println("Order " + this.orderID + " is not ready for delivery.");
+            logger.warn("Order " + this.orderID + " is not ready for delivery.");
         }
     }
 
@@ -155,7 +159,7 @@ public abstract class Order implements Deliverable {
             // System.out.println("Order " + this.orderID + " delivery completed.");
             NotificationService.sendNotification(this.sender, Message.END_DELIVERY);
         } else {
-            System.out.println("Order " + this.orderID + " cannot be completed. Current status: " + this.status);
+            logger.warn("Order " + this.orderID + " cannot be completed. Current status: " + this.status);
         }
     }
 

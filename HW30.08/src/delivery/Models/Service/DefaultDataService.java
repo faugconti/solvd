@@ -104,6 +104,8 @@ public class DefaultDataService {
                 order1.addTrackingEvent("India");
                 order1.addTrackingEvent("China");
 
+                order2.startDelivery();
+
                 System.out.println("Tracking history for Track Code " + order1.gettrackingNumber() + ": "
                                 + order1.getTrackingDetails());
 

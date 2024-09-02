@@ -10,23 +10,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import delivery.Models.Address;
+import delivery.exceptions.*;
 import delivery.Models.MyLinkedList;
-import delivery.Models.Order.DeliveryCompany;
-import delivery.Models.Order.ExpressOrder;
-import delivery.Models.Order.InternationalOrder;
-import delivery.Models.Order.Order;
-import delivery.Models.Order.OrderWriter;
-import delivery.Models.Person.Customer;
-import delivery.Models.Person.DeliveryPerson;
-import delivery.Models.Person.Employee;
-import delivery.enums.MenuOption;
-import delivery.enums.OrderType;
-import delivery.enums.Role;
-import delivery.enums.PaymentType;
-import delivery.exceptions.InvalidAddressException;
-import delivery.exceptions.InvalidOrderException;
-import delivery.exceptions.OrderWriteException;
-import delivery.exceptions.PersonNotFoundException;
+import delivery.Models.Order.*;
+import delivery.Models.Person.*;
+import delivery.enums.*;
 
 public class DeliveryService {
 
@@ -53,8 +41,31 @@ public class DeliveryService {
                 company.setCustomers(customers);
                 break;
             case ("3"):
+                // String searchName;
                 MyLinkedList<Order> orders = company.getOrders();
-                orders.add(createOrder(company));
+                MenuService.printMenu(MenuOption.ADD_CUSTOMER);
+                int input = MenuService.getIntegerInput();
+                if (input == 1) {
+                    Customer customer = selectCustomer(company.getCustomers());
+                    MenuService.printMenu(MenuOption.ADD_ORDER);
+                    input = MenuService.getIntegerInput();
+                    
+                    // change order
+                    orders.add(createOrder(customer));
+                } else if (input == 2) {
+                    String searchName = MenuService.askForInput("Customer name: ");
+                    try {
+                        Customer customer = findCustomerByName(company, searchName);
+                        MenuService.printMenu(MenuOption.ADD_ORDER);
+                        orders.add(createOrder(customer));
+                    } catch (PersonNotFoundException exc) {
+                        logger.error("Error finding your customer: " + searchName);
+                        break; // back to main menu
+                    }
+
+                } else {
+                    break; // back to main menu
+                }
                 try {
                     writeOrdersToFile(orders, fileName);
                 } catch (OrderWriteException exc) {
@@ -72,27 +83,21 @@ public class DeliveryService {
         }
     }
 
-    public static Customer findByName(DeliveryCompany company, String name) {
+    public static Customer findCustomerByName(DeliveryCompany company, String name) throws PersonNotFoundException {
 
         // List<String> filteredList = listOfOptionals.stream()
         // .filter(Optional::isPresent)
         // .map(Optional::get)
         // .collect(Collectors.toList());
 
-        try {
-            Set<Customer> customers = company.getCustomers();
-            for (Customer customer : customers) {
-                if (customer.getName().equalsIgnoreCase(name)) {
-                    logger.info("Customer found: " + customer.getName());
-                    return customer;
-                }
+        Set<Customer> customers = company.getCustomers();
+        for (Customer customer : customers) {
+            if (customer.getName().equalsIgnoreCase(name)) {
+                logger.info("Customer found: " + customer.getName());
+                return customer;
             }
-            throw new PersonNotFoundException("No customer with name: " + name);
-
-        } catch (PersonNotFoundException exc) {
-            logger.error("Error finding your customer: " + name);
-            return null;
         }
+        throw new PersonNotFoundException("No customer with name: " + name);
 
     }
 
@@ -109,11 +114,11 @@ public class DeliveryService {
     }
 
     private static void showCompanyInformation(DeliveryCompany company) {
+        System.out.println("\f");
         System.out.println(company);
     }
 
-    private static Order createOrder(DeliveryCompany company) {
-        Customer customer = selectCustomer(company.getCustomers());
+    private static Order createOrder(Customer customer) {
 
         Order order = null;
         DeliveryPerson carrier = null;
@@ -205,7 +210,7 @@ public class DeliveryService {
         String zipCode = MenuService.askForInput("Enter zip code:");
         String state = MenuService.askForInput("Enter state:");
         String road = MenuService.askForInput("Enter road:");
-        return new Address(country,zipCode,state,road);
+        return new Address(country, zipCode, state, road);
     }
 
     private static Customer createCustomer() {
@@ -269,6 +274,5 @@ public class DeliveryService {
 
         return new Employee(name, email, address, salary, hireDate, role);
     }
-
 
 }
