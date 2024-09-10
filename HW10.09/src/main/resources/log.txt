@@ -1,0 +1,2 @@
+Letters counted: 56
+Word match error: your input is too short
