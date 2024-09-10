@@ -35,7 +35,7 @@ public class Utils {
 
     protected static void enterTextToFile(String fileName, List<String> logger){
         System.out.print("Enter new text: ");
-        String newText = scanner.nextLine();
+        String newText = "\n"+scanner.nextLine();
         try{
             FileUtils.write(new File(fileName),newText,StandardCharsets.UTF_8,true);
         }catch (IOException exc) {
@@ -51,11 +51,6 @@ public class Utils {
         String[] words = StringUtils.split(text); //remove white spaces and create array
         int count = Arrays.stream(words).map(StringUtils::lowerCase).collect(Collectors.toSet()).size(); 
         System.out.println(count);
-        //Set<String> wordCounter = new HashSet<>();
-        // for(String word : words){
-        //    wordCounter.add(StringUtils.lowerCase(word));
-        //}
-        //return wordCounter.size();
         logger.add("Unique words counted: " + count);
     }
 
