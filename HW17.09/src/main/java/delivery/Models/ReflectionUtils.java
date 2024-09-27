@@ -19,8 +19,6 @@ public class ReflectionUtils {
         printMethods(classInput);
     }
 
-
-
     private static void printFields(Class<?> className) {
         System.out.println("Fields:");
         Field[] fields = className.getDeclaredFields();
@@ -52,7 +50,17 @@ public class ReflectionUtils {
         System.out.println();
     }
 
-    //TODO: Method for creating an object
+
+    public static Object createNewObject(String className, Object... args) throws Exception {
+        Class<?> classInput = Class.forName(className);
+        Class<?>[] parameterTypes = new Class<?>[args.length];
+        for (int i = 0; i < args.length; i++) {
+            parameterTypes[i] = args[i].getClass();
+        }
+        Constructor<?> constructor = classInput.getConstructor(parameterTypes);
+        return constructor.newInstance(args);
+    }
+
 
     //TODO: Method for calling another method
 

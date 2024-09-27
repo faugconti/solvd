@@ -4,7 +4,7 @@ public enum OrderStatus {
     DRAFT{  // once created
         @Override
         public boolean canTransitionTo(OrderStatus newStatus) {
-            return newStatus == IN_PROGRESS || newStatus == CANCELLED;
+            return newStatus == READY || newStatus == CANCELLED;
         }
     },
     READY{// once paid

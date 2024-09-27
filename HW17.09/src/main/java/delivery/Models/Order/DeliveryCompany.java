@@ -86,9 +86,6 @@ public class DeliveryCompany {
 
         sb.append("\nCustomers:\n");
         customers.forEach(customer -> sb.append("- ").append(customer.getName()).append(" (").append(customer.getEmail()).append(")\n"));
-        //for (Customer cust : customers) {
-        //    sb.append("- ").append(cust.getName()).append(" (").append(cust.getEmail()).append(")\n");
-        //}
 
         sb.append("\nVehicles:\n");
         for (Vehicle vehicle : vehicles.values()) {
@@ -96,15 +93,6 @@ public class DeliveryCompany {
                     .append(", Model: ").append(vehicle.getModel())
                     .append("\n");
         }
-
-        //sb.append("\nLast 5 orders:\n");
-        //int start = Math.max(0, orders.size() - 5);
-        //for (int i = start; i < orders.size(); i++) {
-        //    Order order = orders.get(i);
-        //    sb.append("- Order #").append(order.getOrderID())
-        //            .append(" sender: ").append(order.getSender().getName())
-        //            .append(" (Status: ").append(order.status()).append(")\n");
-        //}
 
         sb.append("\nLast 5 orders:\n");
         orders.stream()
