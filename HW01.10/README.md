@@ -1,6 +1,8 @@
 ## Diagram
 
-![image](TravelAgencySchema.png)
+ 
+[image](TravelAgencySchema.png)
+ 
 
 
 ## Relations
@@ -17,4 +19,5 @@
 -   **Package ↔ Destination**: A package can include multiple destinations, and a destination can be part of multiple packages.
 -   **Package ↔ Transport**: A package can include multiple transportation options, and a transport can be part of multiple packages.
 -   **Package ↔ Excursion**: A package can include multiple excursions, and an excursion can be offered in multiple packages.
+
 
