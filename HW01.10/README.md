@@ -1,13 +1,9 @@
 ## Diagram
 
  
-<<<<<<< HEAD
 ![image](TravelAgencySchema.png)
-=======
-[image](TravelAgencySchema.png)
->>>>>>> da17008edf451edd110eb5dbd98c97b2a9291322
- 
 
+ 
 
 ## Relations
 
