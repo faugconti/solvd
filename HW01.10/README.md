@@ -7,6 +7,10 @@
 
 ## Relations
 
+## 1:1
+
+- **Customer ↔ PassportDetails**: One customer will have one entry to the passportdetails table.
+
 ## 1:M
 
 - **Customer ↔ Booking**: One Customer can have many Booking entries but at the same time a booking belongs to only a single customer.
