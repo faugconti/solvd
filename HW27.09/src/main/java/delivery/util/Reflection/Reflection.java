@@ -62,6 +62,13 @@ public class Reflection {
     }
 
 
-    //TODO: Method for calling another method
+    public static Object invokeMethod(Object obj, String methodName, Object... args) throws Exception {
+        Class<?>[] parameterTypes = new Class<?>[args.length];
+        for (int i = 0; i < args.length; i++) {
+            parameterTypes[i] = args[i].getClass();
+        }
+        Method method = obj.getClass().getMethod(methodName, parameterTypes);
+        return method.invoke(obj, args);
+    }
 
 }

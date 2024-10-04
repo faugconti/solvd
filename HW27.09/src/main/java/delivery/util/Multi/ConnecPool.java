@@ -4,7 +4,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 public class ConnecPool {
 
-    private static ConnecPool connPool;
+    private static volatile ConnecPool connPool;
     private int size;
     private BlockingDeque<Connection> connections; //thread safe queue
 
@@ -13,9 +13,13 @@ public class ConnecPool {
         this.size = poolSize;
         this.connections = null;
     }
-    public static synchronized ConnecPool getPool(int poolSize){
+    public static ConnecPool getPool(int poolSize){
         if (connPool == null) {
-            connPool = new ConnecPool(poolSize);
+            synchronized (ConnecPool.class) {
+                if (connPool == null) {
+                    connPool = new ConnecPool(poolSize);
+                }
+            }
         }
         return connPool;
     }
@@ -30,11 +34,14 @@ public class ConnecPool {
         }
     }
 
-    public synchronized Connection getConnection() throws InterruptedException{
+    public Connection getConnection() throws InterruptedException{
         if(this.connections==null){
             this.init();
         }
-        return this.connections.take(); // wait for element if empty
+        //return this.connections.take();
+        Connection conn = connections.take();// wait for element if empty
+        System.out.println("[" + Thread.currentThread().getName() + " acquired " + conn + "]");
+        return conn;
     }
 
     public void releaseConnection(Connection conn) throws InterruptedException {
