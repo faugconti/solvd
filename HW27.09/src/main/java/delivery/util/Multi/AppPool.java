@@ -1,8 +1,8 @@
 package delivery.util.Multi;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 
 public class AppPool {
 
@@ -17,6 +17,9 @@ public class AppPool {
 
         run_javaThread_pool();
         System.out.println("**Finished running Java Thread Pool**\n");
+
+        run_with_interfaces();
+        System.out.println("**Finished running Java Pool using the interface future**\n");
     }
 
     private static void run_thread_pool(){
@@ -68,8 +71,34 @@ public class AppPool {
         }
     }
 
-    //TODO: Implement previous point but with interfaces Future and CompletableStage.
     private static void run_with_interfaces(){
+        ConnecPool pool = ConnecPool.getPool(POOL_SIZE);
+        ExecutorService executor = Executors.newFixedThreadPool(THREAD_COUNT);
+        List<CompletableFuture<Void>> futures = new ArrayList<>();
 
+        for (int i = 0; i < THREAD_COUNT; i++) {
+            CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                try {
+                    Connection conn = pool.getConnection();
+                    conn.use();
+                    pool.releaseConnection(conn);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+            }, executor);
+
+            futures.add(future);
+        }
+        CompletableFuture<Void> allOf = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
+
+        //wait for ending all threads
+        try {
+            allOf.get(100000, TimeUnit.MILLISECONDS); // Wait with a timeout
+        } catch (InterruptedException | ExecutionException | TimeoutException e ) {
+            //exceptions related to method .get
+            throw new RuntimeException(e.getMessage());
+        } finally {
+            executor.shutdown();
+        }
     }
 }
