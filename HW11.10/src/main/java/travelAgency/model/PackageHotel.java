@@ -1,11 +1,11 @@
 package travelAgency.model;
+
 import lombok.*;
 
 @Getter @Setter @ToString @NoArgsConstructor @AllArgsConstructor
-public class Hotel {
+public class PackageHotel {
     @NonNull
-    private int id;
-    private String description;
-    private String address;
-    private String name;
+    private int idHotel;
+    @NonNull
+    private int idPackage;
 }
