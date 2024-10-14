@@ -1,33 +1,38 @@
 package travelAgency.DAO.JDBC;
 
-import travelAgency.DAO.DAO;
 import travelAgency.model.Excursion;
 
-import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ExcursionDAO implements DAO<Excursion> {
+public class ExcursionDAO extends AbstractDAO<Excursion> {
     @Override
-    public Excursion getById(int id) {
-        return null;
+    public String getTableName() {
+        return "Excursion";
     }
 
     @Override
-    public List<Excursion> getAll() {
-        return List.of();
+    public Excursion mapResultSetToEntity(ResultSet resultSet) throws SQLException {
+        return new Excursion(
+                resultSet.getInt("idExcursion"),
+                resultSet.getString("description"),
+                resultSet.getString("name"),
+                resultSet.getInt("duration"),
+                resultSet.getFloat("price")
+        );
     }
 
     @Override
-    public void save(Excursion excursion) {
-
-    }
-
-    @Override
-    public void update(Excursion excursion, String[] params) {
-
-    }
-
-    @Override
-    public void remove(Excursion excursion) {
-
+    public Map<String, String> getColumnMappings() {
+        Map<String, String> columnMap = new HashMap<>();
+        columnMap.put("id", "idExcursion");
+        columnMap.put("name", "name");
+        columnMap.put("price", "price");
+        columnMap.put("float", "float");
+        columnMap.put("duration", "duration");
+        columnMap.put("description", "description");
+        return columnMap;
     }
 }

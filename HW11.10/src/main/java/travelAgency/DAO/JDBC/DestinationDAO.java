@@ -1,34 +1,40 @@
 package travelAgency.DAO.JDBC;
 
-import travelAgency.DAO.DAO;
 import travelAgency.model.Destination;
 
-import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
-public class DestinationDAO implements DAO<Destination>
+public class DestinationDAO extends AbstractDAO<Destination>
 {
     @Override
-    public Destination getById(int id) {
-        return null;
+    public Destination mapResultSetToEntity(ResultSet resultSet) throws SQLException {
+        return new Destination(
+                resultSet.getInt("idDestination"),
+                resultSet.getString("country"),
+                resultSet.getString("description"),
+                resultSet.getString("name")
+        );
     }
 
     @Override
-    public List<Destination> getAll() {
-        return List.of();
+    public Map<String, String> getColumnMappings() {
+        Map<String, String> columnMap = new HashMap<>();
+        columnMap.put("id", "idDestination");
+        columnMap.put("country", "country");
+        columnMap.put("description", "description");
+        columnMap.put("name", "name");
+        return columnMap;
     }
 
     @Override
-    public void save(Destination destination) {
-
+    public String getTableName() {
+        return "Destination";
     }
 
-    @Override
-    public void update(Destination destination, String[] params) {
 
-    }
 
-    @Override
-    public void remove(Destination destination) {
 
-    }
 }

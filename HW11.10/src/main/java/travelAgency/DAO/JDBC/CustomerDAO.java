@@ -1,85 +1,60 @@
 package travelAgency.DAO.JDBC;
 
-import travelAgency.DAO.AbstractDAO;
 import travelAgency.model.Customer;
-import travelAgency.util.ConnectionPool;
+import travelAgency.util.ConnectionManager;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CustomerDAO extends AbstractDAO<Customer> {
 
 
     @Override
-    public Connection getConnection(){
-        //retrieve JDBC connection
-        return ConnectionPool.getConnection();
+    public String getTableName() {
+        return "Customer";
     }
 
     @Override
-    public Customer getById(int id) {
-
-        Customer customer = new Customer();
-        String query = "SELECT * from Customer WHERE idCustomer = ?";
-        Connection connection = null;
-        try{
-            connection = this.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1,id);
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()) {
-                customer.setId(resultSet.getInt("id"));
-                customer.setName(resultSet.getString("firstName"));
-                customer.setLastName(resultSet.getString("lastName"));
-                customer.setEmail(resultSet.getString("email"));
-                customer.setPhone(resultSet.getString("phone"));
-            }
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        return customer;
+    public Customer mapResultSetToEntity(ResultSet resultSet) throws SQLException {
+        return new Customer(
+                resultSet.getInt("idCustomer"),
+                resultSet.getString("firstName"),
+                resultSet.getString("lastName"),
+                resultSet.getString("email"),
+                resultSet.getString("phone")
+        );
     }
 
     @Override
-    public List<Customer> getAll() {
-        List<Customer> customers = new ArrayList<>();
-        String query = "SELECT * FROM Customer";
-        Connection connection = null;
-        try{
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()) {
-                Customer customer = new Customer();
-                customer.setId(resultSet.getInt("id"));
-                customer.setName(resultSet.getString("firstName"));
-                customer.setLastName(resultSet.getString("lastName"));
-                customer.setEmail(resultSet.getString("email"));
-                customer.setPhone(resultSet.getString("phone"));
-                customers.add(customer);
-            }
-        }catch(SQLException ex){
-            ex.printStackTrace();
-        }
-        return customers;
+    public Map<String, String> getColumnMappings() {
+        Map<String, String> columnMap = new HashMap<>();
+        columnMap.put("id", "idCustomer");
+        columnMap.put("firstName", "firstName");
+        columnMap.put("lastName", "lastName");
+        columnMap.put("email", "email");
+        columnMap.put("phone", "phone");
+        return columnMap;
     }
 
-    @Override
-    public void save(Customer customer) {
-
-    }
 
     @Override
     public void update(Customer customer, String[] params) {
-
+        String query = "UPDATE Customer SET firstName = ?, lastName = ?, email = ?, phone = ? WHERE idCustomer = ?";
+        runUpdate(query, statement -> {
+            try {
+                statement.setString(1, params[0]); // First name
+                statement.setString(2, params[1]); // Last name
+                statement.setString(3, params[2]); // Email
+                statement.setString(4, params[3]); // Phone
+                statement.setInt(5, customer.getId()); //  ID
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
-    @Override
-    public void remove(Customer customer) {
-
-    }
 
 }

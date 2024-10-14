@@ -3,32 +3,26 @@ package travelAgency.DAO.JDBC;
 import travelAgency.DAO.DAO;
 import travelAgency.model.Rating;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
-public class RatingDAO implements DAO<Rating> {
+public class RatingDAO extends AbstractDAO<Rating> {
+
 
     @Override
-    public Rating getById(int id) {
+    public Rating mapResultSetToEntity(ResultSet resultSet) throws SQLException {
         return null;
     }
 
     @Override
-    public List<Rating> getAll() {
-        return List.of();
+    public Map<String, String> getColumnMappings() {
+        return Map.of();
     }
 
     @Override
-    public void save(Rating rating) {
-
-    }
-
-    @Override
-    public void update(Rating rating, String[] params) {
-
-    }
-
-    @Override
-    public void remove(Rating rating) {
-
+    public String getTableName() {
+        return "Rating";
     }
 }

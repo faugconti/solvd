@@ -1,19 +1,44 @@
 package travelAgency.service;
 
-import travelAgency.DAO.AbstractDAO;
+import travelAgency.DAO.DAO;
+import travelAgency.DAO.JDBC.AbstractDAO;
 import travelAgency.model.Customer;
 
-public class CustomerService {
+import java.util.List;
 
-    private final AbstractDAO<Customer> customerDAO;
+public class CustomerService implements Services<Customer>{
+
+    private final DAO<Customer> customerDAO;
 
     public CustomerService(AbstractDAO<Customer> customerDAO){
         this.customerDAO = customerDAO;
     }
 
-    public Customer findCustomerById(int id){
+    @Override
+    public Customer findById(int id){
         return this.customerDAO.getById(id);
     }
+
+    @Override
+    public List<Customer> findAll() {
+        return this.customerDAO.getAll();
+    }
+
+    @Override
+    public void save(Customer customer) {
+        this.customerDAO.save(customer);
+    }
+
+    @Override
+    public void update(Customer customer, String[] params) {
+
+    }
+
+    @Override
+    public void remove(Customer customer) {
+        this.customerDAO.remove(customer);
+    }
+
 
 
 }
