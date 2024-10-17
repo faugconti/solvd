@@ -1,6 +1,5 @@
 package travelAgency.service;
 
-import travelAgency.model.Customer;
 
 public class TravelAgency {
 
@@ -11,12 +10,11 @@ public class TravelAgency {
         Services<T> service = ServiceFactory.getService(dataSource, entityClass);
 
         System.out.println("Adding " + entity + " using " + dataSource);
-
+        // TODO : ADD METHOD FOR GRABING FILD INFORMATION FROM THE ENTITY , SHOULD BE PLACED IN MENUSERVICE?
     }
 
     public static void updateEntity(String dataSource, String entity) {
         System.out.println("Updating " + entity + " using " + dataSource);
-        // Implement entity update logic here
     }
 
     public static <T> void displayEntities(String dataSource, String entity) {
