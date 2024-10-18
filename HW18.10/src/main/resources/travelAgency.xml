@@ -1,0 +1,42 @@
+<TravelAgency>
+    <Customer idCustomer="100">
+        <firstName>Joseph</firstName>
+        <lastName>Lapena</lastName>
+        <email>john.doe@example.com</email>
+        <phone>123-456-7890</phone>
+    </Customer>
+    <Employee idEmployee="7">
+        <firstName>Bob</firstName>
+        <lastName>Brown</lastName>
+        <phone>555-8765</phone>
+        <email>bob.browne@example.com</email>
+        <role>Tour Guide</role>
+        <hireDate>2021-06-01</hireDate>
+    </Employee>
+    <Destination idDestination="6">
+        <country>Korea</country>
+        <name>Seul</name>
+        <description>Capital of South Korea</description>
+    </Destination>
+    <Package idPackage="10">
+        <idTrip>25</idTrip>
+        <name>Cultural travel to seul</name>
+        <basePrice>3000</basePrice>
+    </Package>
+    <PackageDestinations idPackage="10" idDestination="6" />
+    <Booking idBooking="40">
+        <idCustomer>100</idCustomer>
+        <idTrip>25</idTrip>
+        <idEmployee>7</idEmployee>
+        <bookingDate>2024-10-14</bookingDate>
+        <totalPrice>3000</totalPrice>
+    </Booking>
+    <Trip idTrip="25">
+        <startDate>2025-01-01</startDate>
+        <endDate>2025-01-31</endDate>
+        <name>Korea</name>
+        <description>Just the capital of korea</description>
+    </Trip>
+
+
+</TravelAgency>
