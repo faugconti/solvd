@@ -1,7 +1,6 @@
 package travelAgency.service;
 
 import travelAgency.DAO.DAO;
-import travelAgency.DAO.JDBC.AbstractDAO;
 import travelAgency.DAO.JDBC.EntityDAO;
 import travelAgency.util.ReflectionUtils;
 
@@ -20,9 +19,17 @@ public class DatabaseService<T> implements Services<T> {
     }
 
     @Override
-    public T findById(int id) {
-        return this.dao.getById(id);
+    public void findById() {
+        System.out.println("ID: ");
+        int id = MenuService.getIntegerInput();
+        T entity = this.dao.getById(id);
+        if(entity == null){
+            System.out.println("No "+this.type.getSimpleName()+" found with that id");
+            return;
+        }
+        System.out.println(this.dao.getById(id));
     }
+
 
     @Override
     public void findAll() {

@@ -8,6 +8,8 @@ public class ServiceFactory {
                 return new DatabaseService<T>(entityClass);
             case "xml":
                 return new XMLService<T>(entityClass);
+            case "json":
+                return new JSONService<T>(entityClass);
             default:
                 throw new IllegalArgumentException("Unsupported data source");
         }

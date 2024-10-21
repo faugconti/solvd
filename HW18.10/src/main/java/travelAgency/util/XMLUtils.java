@@ -25,6 +25,7 @@ import java.util.List;
 
 public class XMLUtils {
 
+
     public static boolean validateFiles(String xmlFilePath,String xsdFilepath) {
         try {
             File xmlFile = new File(xmlFilePath);
@@ -114,17 +115,20 @@ public class XMLUtils {
         String outputDir = "target/";
         String outputFile = outputDir+pluralClass.getSimpleName()+System.currentTimeMillis()+".xml";
 
-            Object wrapper = ReflectionUtils.getPluralList(pluralClass,singularList);
-            JAXBContext context = JAXBContext.newInstance(pluralClass);
-            Marshaller mar= context.createMarshaller();
-            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            mar.marshal(wrapper, new File(outputFile));
+        Object wrapper = ReflectionUtils.getPluralList(pluralClass,singularList);
+        JAXBContext context = JAXBContext.newInstance(pluralClass);
+        Marshaller mar= context.createMarshaller();
+        mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        mar.marshal(wrapper, new File(outputFile));
     }
 
-    public static void JAXmarshal(String outputDir,Object obj) throws JAXBException,IOException{
-
-
-
+    public static void marshall_single_entity(Class<?> entityClass, Object entity) throws JAXBException {
+        String outputDir = "target/";
+        String outputFile = outputDir+entityClass.getSimpleName()+System.currentTimeMillis()+".xml";
+        JAXBContext context = JAXBContext.newInstance(entityClass);
+        Marshaller mar= context.createMarshaller();
+        mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        mar.marshal(entity, new File(outputFile));
     }
 
     public static void main(String args[]) throws JAXBException {

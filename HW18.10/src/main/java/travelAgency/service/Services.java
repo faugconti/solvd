@@ -3,7 +3,7 @@ package travelAgency.service;
 import java.util.List;
 
 public interface Services<T> {
-    T findById(int id);
+    void findById();
     void findAll();
     void add();
     void update();
