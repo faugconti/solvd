@@ -19,9 +19,19 @@ public class DatabaseService<T> implements Services<T> {
         this.type = entityClass;
     }
 
+
     @Override
-    public T findById(int id) {
-        return this.dao.getById(id);
+    public void findById() {
+        System.out.println("ID: ");
+        int id = MenuService.getIntegerInput();
+        T entity = this.dao.getById(id);
+        if(entity == null){
+            System.out.println(this.type.getSimpleName()+" not found.");
+            return;
+        }else{
+            System.out.println(entity);
+        }
+
     }
 
     @Override

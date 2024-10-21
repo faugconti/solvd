@@ -85,8 +85,9 @@ public class MenuService {
             System.out.println("1. Add " + entity);
             System.out.println("2. Update " + entity);
             System.out.println("3. Remove " + entity);
-            System.out.println("4. Display ALL " + entity + "s");
-            System.out.println("5. Back to prev menu");
+            System.out.println("4. Find " + entity);
+            System.out.println("5. Display ALL " + entity + "s");
+            System.out.println("6. Back to prev menu");
             System.out.print("Enter your choice: ");
             int choice = input.nextInt();
             input.nextLine();
@@ -98,13 +99,16 @@ public class MenuService {
                 case 2:
                     ServiceFactory.getService(dataSource,entity.getEntityClass()).update();
                     break;
-                case 4:
-                    ServiceFactory.getService(dataSource,entity.getEntityClass()).findAll();
-                    break;
                 case 3:
                     ServiceFactory.getService(dataSource,entity.getEntityClass()).remove();
                     break;
-                case 5 :
+                case 4:
+                    ServiceFactory.getService(dataSource,entity.getEntityClass()).findById();
+                    break;
+                case 5:
+                    ServiceFactory.getService(dataSource,entity.getEntityClass()).findAll();
+                    break;
+                case 6 :
                     return;
                 default:
                     System.out.println("Invalid choice. Please try again.");

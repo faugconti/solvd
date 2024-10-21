@@ -19,17 +19,25 @@ public class XMLService<T> implements Services<T> {
         this.type = entityClass;
     }
 
+
     @Override
-    public T findById(int id) {
-        return this.dao.getById(id);
+    public void findById() {
+        System.out.println("ID: ");
+        int id = MenuService.getIntegerInput();
+        T entity = this.dao.getById(id);
+        if(entity == null){
+            System.out.println(this.type.getSimpleName()+" not found.");
+            return;
+        }
+        try {
+            XMLUtils.marshall_single_entity(this.type,entity);
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void findAll() {
-        //System.out.println("Please enter ID: ");
-        //int entityId = MenuService.getIntegerInput();
-        //T entity = dao.getById(entityId);
-
         List<T> entities = dao.getAll();
         try {
             XMLUtils.marshall_list(Entities.getPluralClassForEntity(this.type),entities);
