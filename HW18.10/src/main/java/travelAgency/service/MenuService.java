@@ -43,6 +43,7 @@ public class MenuService {
         System.out.println("Please Select your data source");
         System.out.println("1. Database");
         System.out.println("2. XML");
+        System.out.println("3. JSON");
         System.out.print("Enter: ");
         int choice = input.nextInt();
         input.nextLine();
@@ -52,6 +53,9 @@ public class MenuService {
                 break;
             case 2:
                 dataSource = "XML";
+                break;
+            case 3:
+                dataSource = "JSON";
                 break;
             default:
                 System.out.println("Invalid choice. Please try again.");
