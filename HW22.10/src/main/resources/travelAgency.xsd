@@ -1,0 +1,84 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="TravelAgency">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Customer" type="Customer" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="Employee" type="Employee" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="Destination" type="Destination" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="Package" type="Package" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="PackageDestinations" type="PackageDestinations" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="Booking" type="Booking" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="Trip" type="Trip" minOccurs="0" maxOccurs="unbounded"/>
+                <!-- Add other elements as needed -->
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+        <xs:complexType name="Customer">
+                        <xs:sequence>
+                            <xs:element name="firstName" type="xs:string"/>
+                            <xs:element name="lastName" type="xs:string"/>
+                            <xs:element name="email" type="xs:string"/>
+                            <xs:element name="phone" type="xs:string"/>
+                        </xs:sequence>
+                        <xs:attribute name="idCustomer" type="xs:integer" use="required"/>
+        </xs:complexType>
+        <xs:complexType name="Employee">
+                            <xs:sequence>
+                                <xs:element name="firstName" type="xs:string"/>
+                                <xs:element name="lastName" type="xs:string"/>
+                                <xs:element name="phone" type="xs:string"/>
+                                <xs:element name="email" type="xs:string"/>
+                                <xs:element name="role" type="xs:string"/>
+                                <xs:element name="hireDate" type="xs:date"/>
+                            </xs:sequence>
+                            <xs:attribute name="idEmployee" type="xs:integer" use="required"/>
+        </xs:complexType>
+        <xs:complexType name="Destination">
+                            <xs:sequence>
+                                <xs:element name="country" type="xs:string"/>
+                                <xs:element name="name" type="xs:string"/>
+                                <xs:element name="description" type="xs:string"/>
+                            </xs:sequence>
+                            <xs:attribute name="idDestination" type="xs:integer" use="required"/>
+        </xs:complexType>
+            <xs:complexType name="Package">
+                            <xs:sequence>
+                                <xs:element name="idTrip" type="xs:integer"/>
+                                <xs:element name="name" type="xs:string"/>
+                                <xs:element name="basePrice" type="xs:float"/>
+                            </xs:sequence>
+                            <xs:attribute name="idPackage" type="xs:integer" use="required"/>
+                        </xs:complexType>
+    <xs:complexType name="PackageDestinations">
+                                <xs:attribute name="idPackage" type="xs:integer" use="required"/>
+                                <xs:attribute name="idDestination" type="xs:integer" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="Booking">
+                            <xs:sequence>
+                                <xs:element name="idCustomer" type="xs:integer"/>
+                                <xs:element name="idTrip" type="xs:integer"/>
+                                <xs:element name="idEmployee" type="xs:integer"/>
+                                <xs:element name="bookingDate" type="xs:date"/>
+                                <xs:element name="totalPrice" type="xs:float"/>
+                            </xs:sequence>
+                            <xs:attribute name="idBooking" type="xs:integer" use="required"/>
+                        </xs:complexType>
+    <xs:complexType name="Trip">
+                            <xs:sequence>
+                                <xs:element name="startDate" type="xs:date"/>
+                                <xs:element name="endDate" type="xs:date"/>
+                                <xs:element name="name" type="xs:string"/>
+                                <xs:element name="description" type="xs:string"/>
+                            </xs:sequence>
+                            <xs:attribute name="idTrip" type="xs:integer" use="required"/>
+                        </xs:complexType>
+
+    <xs:element name="Customer" type="Customer"/>
+    <xs:element name="Employee" type="Employee"/>
+    <xs:element name="Destination" type="Destination"/>
+    <xs:element name="Trip" type="Trip"/>
+    <xs:element name="Package" type="Package"/>
+    <xs:element name="PackageDestinations" type="PackageDestinations"/>
+</xs:schema>
