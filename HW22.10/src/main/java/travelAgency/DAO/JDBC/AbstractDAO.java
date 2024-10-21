@@ -116,9 +116,7 @@ public abstract class AbstractDAO<T> implements DAO<T>, Entity<T> {
 
         // Set the generated ID back to the entity
         try {
-            // Find the setId method in the entity class
             Method setIdMethod = entity.getClass().getMethod("setId"+entity.getClass().getSimpleName(), int.class);
-            // Invoke the method to set the ID
             setIdMethod.invoke(entity, generatedId);
         } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e ) {
             throw new RuntimeException(e);
@@ -131,11 +129,11 @@ public abstract class AbstractDAO<T> implements DAO<T>, Entity<T> {
         StringBuilder sqlSetClause = new StringBuilder();
 
         // Remove the ID from the attribute names for the SET clause
-        String idColumnName = "id"+getClass().getSimpleName();
-        columnNames.remove(0);
+        String idColumnName = "id"+entity.getClass().getSimpleName();
+        //columnNames.remove(0);
 
         // Construct the SET clause
-        for (int i = 0; i < columnNames.size(); i++) {
+        for (int i = 1; i < columnNames.size(); i++) {
             sqlSetClause.append(columnNames.get(i)).append(" = ?");
             if (i < columnNames.size() - 1) {
                 sqlSetClause.append(", ");
@@ -143,18 +141,15 @@ public abstract class AbstractDAO<T> implements DAO<T>, Entity<T> {
         }
 
         String query = "UPDATE " + getTableName() + " SET " + sqlSetClause + " WHERE " + idColumnName + " = ?";
-        System.out.println(query);
         this.runUpdate(query, statement -> {
             try {
-                // Set the parameters from the array
-                for (int i = 0; i < params.length; i++) {
-                    statement.setString(i + 1, params[i]);
+                // generate the update statement
+                for (int i = 1; i < params.length; i++) {
+                    statement.setString(i, params[i]);
                 }
 
-                // Set the ID parameter at the end
                 int id = (int) entity.getClass().getMethod("getId"+entity.getClass().getSimpleName()).invoke(entity);
-                statement.setInt(params.length + 1, id);
-
+                statement.setInt(params.length , id);
             } catch (SQLException | ReflectiveOperationException e) {
                 e.printStackTrace();
             }

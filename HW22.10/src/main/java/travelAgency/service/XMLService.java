@@ -7,6 +7,8 @@ import travelAgency.util.enums.Entities;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 public class XMLService<T> implements Services<T> {
@@ -62,6 +64,39 @@ public class XMLService<T> implements Services<T> {
 
     @Override
     public void update() {
+        List<String> excludeFields = List.of("id" + this.getType().getSimpleName());
+        System.out.print("ID: ");
+        int id = MenuService.getIntegerInput();
+        T entity = this.dao.getById(id);
+        if (entity == null) {
+            System.out.println("No row found for that ID.");
+            return;
+        }
+        String baseDirectory = "src/main/resources/";
+        // read from XML
+        String inputFile = MenuService.askForInput("Please enter the complete name of the XML File to parse under /resources: ");
+        T newEntity;
+        try {
+            newEntity = ((T) XMLUtils.JAXunmarshaller(this.type, baseDirectory + inputFile));
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
+
+        List<String> attributes = new ArrayList<>();
+        for (Field field : newEntity.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object currentValue = field.get(newEntity);
+                attributes.add(currentValue.toString());
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        String[] attributesArray = attributes.toArray(new String[0]);
+        System.out.println(attributes);
+        this.dao.update(entity, attributesArray);
+
     }
 
     @Override

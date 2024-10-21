@@ -49,7 +49,7 @@ public class DatabaseService<T> implements Services<T> {
     @Override
     public void update() {;
         List<String> excludeFields = List.of("id"+this.getType().getSimpleName());
-        System.out.println("ID: ");
+        System.out.print("ID: ");
         int id = MenuService.getIntegerInput();
         T entity = this.dao.getById(id);
         if(entity == null){
