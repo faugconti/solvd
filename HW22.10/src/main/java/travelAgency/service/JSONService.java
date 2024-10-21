@@ -8,6 +8,8 @@ import travelAgency.util.enums.Entities;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JSONService<T> implements Services<T> {
@@ -59,7 +61,36 @@ public class JSONService<T> implements Services<T> {
 
     @Override
     public void update() {
+        System.out.print("ID: ");
+        int id = MenuService.getIntegerInput();
+        T entity = this.dao.getById(id);
+        if (entity == null) {
+            System.out.println("No row found for that ID.");
+            return;
+        }
 
+        // read from JSON
+        String inputFile = MenuService.askForInput("Please enter the complete name of the JSON File to parse under /resources: ");
+        T newEntity;
+        try {
+            newEntity = ((T) JSONUtils.unmarshall_single_entity(this.type, inputFile));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        List<String> attributes = new ArrayList<>();
+        for (Field field : newEntity.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            try {
+                Object currentValue = field.get(newEntity);
+                attributes.add(currentValue.toString());
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        String[] attributesArray = attributes.toArray(new String[0]);
+        this.dao.update(entity, attributesArray);
     }
 
     @Override
