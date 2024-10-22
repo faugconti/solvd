@@ -1,12 +1,9 @@
 package travelAgency.service;
 
 import travelAgency.DAO.DAO;
-import travelAgency.DAO.JDBC.AbstractDAO;
 import travelAgency.DAO.JDBC.EntityDAO;
 import travelAgency.util.ReflectionUtils;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseService<T> implements Services<T> {
@@ -60,20 +57,8 @@ public class DatabaseService<T> implements Services<T> {
         T newEntity = (T) ReflectionUtils.askForEntityAttributes(this.type,excludeFields); //create a new object
         newEntity = (T) ReflectionUtils.setID(newEntity,id); // object with modified attributes.
 
-        List<String> attributes = new ArrayList<>();
-        for (Field field : newEntity.getClass().getDeclaredFields()) {
-                field.setAccessible(true);
-            try {
-                Object currentValue = field.get(newEntity);
-                attributes.add(currentValue.toString());
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
 
-        }
-        String[] attributesArray = attributes.toArray(new String[0]);
-        System.out.println(attributes);
-        this.dao.update(entity,attributesArray);
+        this.dao.update(entity,ReflectionUtils.extractEntityAttributes(newEntity,entity));
     }
 
     @Override

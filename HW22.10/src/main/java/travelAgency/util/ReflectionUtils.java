@@ -105,4 +105,35 @@ public class ReflectionUtils {
     }
 
 
+    public static String[] extractEntityAttributes(Object newEntity, Object oldEntity) {
+        List<String> attributes = new ArrayList<>();
+
+        Field[] fields = newEntity.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                Object newValue = field.get(newEntity);
+                Object oldValue = field.get(oldEntity);
+
+                Object finalValue = newValue;
+
+                // check for null strings
+                if (newValue == null || (newValue instanceof String && ((String) newValue).isEmpty())) {
+                    finalValue = oldValue;
+                }
+
+                if (finalValue != null) {
+                    attributes.add(finalValue.toString());
+                } else {
+                    attributes.add("null");
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return attributes.toArray(new String[0]);
+    }
+
+
 }

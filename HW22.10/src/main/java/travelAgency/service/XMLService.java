@@ -2,13 +2,12 @@ package travelAgency.service;
 
 import travelAgency.DAO.DAO;
 import travelAgency.DAO.JDBC.EntityDAO;
+import travelAgency.util.ReflectionUtils;
 import travelAgency.util.XMLUtils;
 import travelAgency.util.enums.Entities;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 public class XMLService<T> implements Services<T> {
@@ -81,21 +80,7 @@ public class XMLService<T> implements Services<T> {
         } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
-
-        List<String> attributes = new ArrayList<>();
-        for (Field field : newEntity.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            try {
-                Object currentValue = field.get(newEntity);
-                attributes.add(currentValue.toString());
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-        String[] attributesArray = attributes.toArray(new String[0]);
-        System.out.println(attributes);
-        this.dao.update(entity, attributesArray);
+        this.dao.update(entity, ReflectionUtils.extractEntityAttributes(newEntity,entity));
 
     }
 

@@ -3,13 +3,11 @@ package travelAgency.service;
 import travelAgency.DAO.DAO;
 import travelAgency.DAO.JDBC.EntityDAO;
 import travelAgency.util.JSONUtils;
-import travelAgency.util.XMLUtils;
+import travelAgency.util.ReflectionUtils;
 import travelAgency.util.enums.Entities;
 
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class JSONService<T> implements Services<T> {
@@ -68,7 +66,6 @@ public class JSONService<T> implements Services<T> {
             System.out.println("No row found for that ID.");
             return;
         }
-
         // read from JSON
         String inputFile = MenuService.askForInput("Please enter the complete name of the JSON File to parse under /resources: ");
         T newEntity;
@@ -78,19 +75,7 @@ public class JSONService<T> implements Services<T> {
             throw new RuntimeException(e);
         }
 
-        List<String> attributes = new ArrayList<>();
-        for (Field field : newEntity.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            try {
-                Object currentValue = field.get(newEntity);
-                attributes.add(currentValue.toString());
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-        String[] attributesArray = attributes.toArray(new String[0]);
-        this.dao.update(entity, attributesArray);
+        this.dao.update(entity, ReflectionUtils.extractEntityAttributes(newEntity,entity));
     }
 
     @Override
