@@ -1,0 +1,6 @@
+<Customer idCustomer="30">
+    <firstName>Zeus</firstName>
+    <lastName>Greek</lastName>
+    <email>Zeus@solvd.com</email>
+    <phone>123-123-123</phone>
+</Customer>
