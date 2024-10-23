@@ -110,7 +110,7 @@ public class XMLUtils {
         return unmarshaller.unmarshal(xmlFile);
     }
 
-    public static void marshall_list(Class<?> pluralClass, List<?> singularList) throws JAXBException,IOException{
+    public static void marshallList(Class<?> pluralClass, List<?> singularList) throws JAXBException,IOException{
         String outputDir = "target/";
         String outputFile = outputDir+pluralClass.getSimpleName()+System.currentTimeMillis()+".xml";
 
@@ -121,7 +121,7 @@ public class XMLUtils {
         mar.marshal(wrapper, new File(outputFile));
     }
 
-    public static void marshall_single_entity(Class<?> entityClass,Object entity) throws JAXBException {
+    public static void marshallSingleEntity(Class<?> entityClass,Object entity) throws JAXBException {
         String outputDir = "target/";
         String outputFile = outputDir+entityClass.getSimpleName()+System.currentTimeMillis()+".xml";
         JAXBContext context = JAXBContext.newInstance(entityClass);

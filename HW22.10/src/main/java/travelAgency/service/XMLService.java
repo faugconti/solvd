@@ -31,7 +31,7 @@ public class XMLService<T> implements Services<T> {
             return;
         }
         try {
-            XMLUtils.marshall_single_entity(this.type,entity);
+            XMLUtils.marshallSingleEntity(this.type,entity);
         } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
@@ -41,7 +41,7 @@ public class XMLService<T> implements Services<T> {
     public void findAll() {
         List<T> entities = dao.getAll();
         try {
-            XMLUtils.marshall_list(Entities.getPluralClassForEntity(this.type),entities);
+            XMLUtils.marshallList(Entities.getPluralClassForEntity(this.type),entities);
         } catch (JAXBException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -89,7 +89,6 @@ public class XMLService<T> implements Services<T> {
         String baseDirectory = "src/main/resources/";
         //ask for name of XML in /resources folder
         String inputFile = MenuService.askForInput("Please enter the complete name of the XML File to parse under /resources: ");
-
         try {
             this.dao.remove((T) XMLUtils.JAXunmarshaller(this.type,baseDirectory+inputFile));
         } catch (JAXBException e) {

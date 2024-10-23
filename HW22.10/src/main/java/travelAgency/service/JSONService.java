@@ -29,7 +29,7 @@ public class JSONService<T> implements Services<T> {
             return;
         }
         try {
-            JSONUtils.marshall_single_entity(this.type,entity);
+            JSONUtils.marshallSingleEntity(this.type,entity);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +39,7 @@ public class JSONService<T> implements Services<T> {
     public void findAll() {
         List<T> entities = dao.getAll();
         try {
-            JSONUtils.marshall_list_entity(Entities.getPluralClassForEntity(this.type),entities);
+            JSONUtils.marshallListEntity(Entities.getPluralClassForEntity(this.type),entities);
         } catch ( IOException e) {
             throw new RuntimeException(e);
         }
@@ -49,7 +49,7 @@ public class JSONService<T> implements Services<T> {
     public void add() {
         String inputFile = MenuService.askForInput("Please enter the complete name of the JSON File to parse under /resources: ");
         try {
-            this.dao.save((T) JSONUtils.unmarshall_single_entity(this.type,inputFile));
+            this.dao.save((T) JSONUtils.unmarshallSingleEntity(this.type,inputFile));
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -70,7 +70,7 @@ public class JSONService<T> implements Services<T> {
         String inputFile = MenuService.askForInput("Please enter the complete name of the JSON File to parse under /resources: ");
         T newEntity;
         try {
-            newEntity = ((T) JSONUtils.unmarshall_single_entity(this.type, inputFile));
+            newEntity = ((T) JSONUtils.unmarshallSingleEntity(this.type, inputFile));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -83,7 +83,7 @@ public class JSONService<T> implements Services<T> {
         String inputFile = MenuService.askForInput("Please enter the complete name of the JSON File to parse under /resources: ");
 
         try {
-            this.dao.remove((T) JSONUtils.unmarshall_single_entity(this.type,inputFile));
+            this.dao.remove((T) JSONUtils.unmarshallSingleEntity(this.type,inputFile));
         }  catch (IOException e) {
             throw new RuntimeException(e);
         }

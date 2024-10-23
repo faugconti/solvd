@@ -16,7 +16,6 @@ public class DatabaseService<T> implements Services<T> {
         this.type = entityClass;
     }
 
-
     @Override
     public void findById() {
         System.out.println("ID: ");
@@ -28,7 +27,6 @@ public class DatabaseService<T> implements Services<T> {
         }else{
             System.out.println(entity);
         }
-
     }
 
     @Override
@@ -56,8 +54,6 @@ public class DatabaseService<T> implements Services<T> {
         System.out.println("Object Found: \n"+entity);
         T newEntity = (T) ReflectionUtils.askForEntityAttributes(this.type,excludeFields); //create a new object
         newEntity = (T) ReflectionUtils.setID(newEntity,id); // object with modified attributes.
-
-
         this.dao.update(entity,ReflectionUtils.extractEntityAttributes(newEntity,entity));
     }
 

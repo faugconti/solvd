@@ -105,7 +105,6 @@ public abstract class AbstractDAO<T> implements DAO<T>, Entity<T> {
         }
 
         String query = "INSERT INTO " + getTableName() + " (" + columns + ") VALUES (" + values + ")";
-        System.out.println(entity);
         int generatedId = this.runUpdate(query, statement -> {
             try {
                 setStatementValues(statement, entity, attributeNames);
