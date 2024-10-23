@@ -1,0 +1,20 @@
+[{
+    "idCustomer": 150,
+    "firstName": "Adrian",
+    "lastName": "Paredes",
+    "email": "aparedes@solvd.com",
+    "phone": "032812321"
+  },{
+    "idCustomer": 151,
+    "firstName": "Otavio",
+    "lastName": "Augusto",
+    "email": "augusto@solvd.com",
+    "phone": "32123123"
+},
+  {
+    "idCustomer": 152,
+    "firstName": "Vince",
+    "lastName": "Mcmahon",
+    "email": "vince@solvd.com",
+    "phone": "54255422"
+  }]
