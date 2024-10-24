@@ -13,5 +13,5 @@ public class Excursion {
     @JsonProperty("duration")
     private int duration;
     @JsonProperty("price")
-    private float price;
+    private double price;
 }
