@@ -1,4 +1,4 @@
-package travelAgency.DAO.myBatis;
+package travelAgency.DAO.MyBatis;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -6,7 +6,10 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import travelAgency.DAO.DAO;
@@ -50,13 +53,26 @@ public class MyBatisDAO<T> implements DAO<T> {
     }
 
     @Override
-    public void update(T t, String[] params) {
+    public void update(T t,String[] params) {
+        try (SqlSession session = sqlSessionFactory.openSession()) {
 
+            Map<String, Object> mapParameters = new HashMap<>();
+            mapParameters.put("id", params[0]);
+            mapParameters.put("params", params);
+            mapParameters.put("entity", t);
+            session.update(entityClass.getSimpleName() + ".update", mapParameters);
+            session.commit();
+        }
     }
 
     @Override
     public void remove(T t) {
-
+        try (SqlSession session = sqlSessionFactory.openSession()) {
+            session.update(entityClass.getSimpleName()+".disableForeignKeyChecks");
+            session.delete(entityClass.getSimpleName() + ".remove", t);
+            session.update(entityClass.getSimpleName()+".enableForeignKeyChecks");
+            session.commit();
+        }
     }
 
 
