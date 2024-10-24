@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Excursion">
+    <select id="findById" resultType="travelAgency.model.Excursion">
+        SELECT * FROM Excursion WHERE idExcursion = #{id}
+    </select>
+    <select id="findAll" resultType="travelAgency.model.Excursion">
+        SELECT * FROM Excursion
+    </select>
+    <insert id="add" parameterType="travelAgency.model.Excursion">
+        INSERT INTO Excursion (description, name, duration, price)
+        VALUES (#{description}, #{name}, #{duration}, #{price})
+    </insert>
+    <update id="update" parameterType="map">
+        UPDATE Employee
+        <set>
+            <if test="params[1] != null">description = #{params[1]},</if>
+            <if test="params[2] != null">name = #{params[2]},</if>
+            <if test="params[3] != null">duration = #{params[3]},</if>
+            <if test="params[4] != null">price = #{params[4]},</if>
+        </set>
+        WHERE idExcursion = #{id}
+    </update>
+    <delete id="remove" parameterType="travelAgency.model.Excursion">
+        DELETE FROM Excursion WHERE idExcursion = #{idExcursion}
+    </delete>
+    <update id="disableForeignKeyChecks">
+        SET FOREIGN_KEY_CHECKS = 0
+    </update>
+    <update id="enableForeignKeyChecks">
+        SET FOREIGN_KEY_CHECKS = 1
+    </update>
+</mapper>

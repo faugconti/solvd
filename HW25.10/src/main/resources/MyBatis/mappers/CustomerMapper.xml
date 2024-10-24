@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Customer">
+    <select id="findById" resultType="travelAgency.model.Customer">
+        SELECT * FROM Customer WHERE idCustomer = #{id}
+    </select>
+    <select id="findAll" resultType="travelAgency.model.Customer">
+        SELECT * FROM Customer
+    </select>
+    <insert id="add" parameterType="travelAgency.model.Customer">
+        INSERT INTO Customer (firstName, lastName, email, phone)
+        VALUES (#{firstName}, #{lastName}, #{email}, #{phone})
+    </insert>
+    <update id="update" parameterType="map">
+        UPDATE Customer
+        <set>
+            <if test="params[1] != null">firstName = #{params[1]},</if>
+            <if test="params[2] != null">lastName = #{params[2]},</if>
+            <if test="params[3] != null">email = #{params[3]},</if>
+            <if test="params[4] != null">phone = #{params[4]}</if>
+        </set>
+        WHERE idCustomer = #{id}
+    </update>
+    <delete id="remove" parameterType="travelAgency.model.Customer">
+        DELETE FROM Customer WHERE idCustomer = #{idCustomer}
+    </delete>
+    <update id="disableForeignKeyChecks">
+        SET FOREIGN_KEY_CHECKS = 0
+    </update>
+    <update id="enableForeignKeyChecks">
+        SET FOREIGN_KEY_CHECKS = 1
+    </update>
+</mapper>
