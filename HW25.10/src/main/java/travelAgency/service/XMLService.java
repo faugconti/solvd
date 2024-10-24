@@ -2,6 +2,7 @@ package travelAgency.service;
 
 import travelAgency.DAO.DAO;
 import travelAgency.DAO.JDBC.EntityDAO;
+import travelAgency.DAO.MyBatis.MyBatisDAO;
 import travelAgency.util.ReflectionUtils;
 import travelAgency.util.XMLUtils;
 import travelAgency.util.enums.Entities;
@@ -16,7 +17,7 @@ public class XMLService<T> implements Services<T> {
     private final Class<T> type;
 
     public XMLService(Class<T> entityClass){
-        this.dao = new EntityDAO<>(entityClass);
+        this.dao = new MyBatisDAO<>(entityClass);
         this.type = entityClass;
     }
 

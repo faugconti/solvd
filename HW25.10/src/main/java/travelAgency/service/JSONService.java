@@ -1,7 +1,10 @@
 package travelAgency.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import travelAgency.DAO.DAO;
 import travelAgency.DAO.JDBC.EntityDAO;
+import travelAgency.DAO.MyBatis.MyBatisDAO;
 import travelAgency.util.JSONUtils;
 import travelAgency.util.ReflectionUtils;
 import travelAgency.util.enums.Entities;
@@ -11,12 +14,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class JSONService<T> implements Services<T> {
-
+    private static final Logger logger = LogManager.getLogger(JSONService.class);
     public final DAO<T> dao;
     private final Class<T> type;
 
     public JSONService(Class<T> entityClass){
-        this.dao = new EntityDAO<>(entityClass);
+        this.dao = new MyBatisDAO<>(entityClass);
         this.type = entityClass;
     }
     @Override
@@ -25,7 +28,7 @@ public class JSONService<T> implements Services<T> {
         int id = MenuService.getIntegerInput();
         T entity = this.dao.getById(id);
         if(entity == null){
-            System.out.println(this.type.getSimpleName()+" not found.");
+            logger.warn("{} not found.", this.type.getSimpleName());
             return;
         }
         try {
@@ -63,7 +66,7 @@ public class JSONService<T> implements Services<T> {
         int id = MenuService.getIntegerInput();
         T entity = this.dao.getById(id);
         if (entity == null) {
-            System.out.println("No row found for that ID.");
+            logger.warn("{} not found.", this.type.getSimpleName());
             return;
         }
         // read from JSON
@@ -72,10 +75,11 @@ public class JSONService<T> implements Services<T> {
         try {
             newEntity = ((T) JSONUtils.unmarshallSingleEntity(this.type, inputFile));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("Error while updating entity");
+            return;
         }
-
         this.dao.update(entity, ReflectionUtils.extractEntityAttributes(newEntity,entity));
+        logger.info("Entity updated");
     }
 
     @Override
@@ -85,8 +89,9 @@ public class JSONService<T> implements Services<T> {
         try {
             this.dao.remove((T) JSONUtils.unmarshallSingleEntity(this.type,inputFile));
         }  catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("Error while deleting entity");
         }
+        logger.info("Entity deleted");
     }
 
     @Override

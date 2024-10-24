@@ -1,7 +1,10 @@
 package travelAgency.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import travelAgency.DAO.DAO;
 import travelAgency.DAO.JDBC.EntityDAO;
+import travelAgency.DAO.MyBatis.MyBatisDAO;
 import travelAgency.util.ReflectionUtils;
 
 import java.util.List;
@@ -10,9 +13,10 @@ public class DatabaseService<T> implements Services<T> {
 
     public final DAO<T> dao;
     private final Class<T> type;
+    private static final Logger logger = LogManager.getLogger(DatabaseService.class);
 
     public DatabaseService(Class<T> entityClass){
-        this.dao = new EntityDAO<>(entityClass);
+        this.dao = new MyBatisDAO<>(entityClass);
         this.type = entityClass;
     }
 
@@ -22,23 +26,27 @@ public class DatabaseService<T> implements Services<T> {
         int id = MenuService.getIntegerInput();
         T entity = this.dao.getById(id);
         if(entity == null){
-            System.out.println(this.type.getSimpleName()+" not found.");
-            return;
+            logger.warn("No records found");
         }else{
-            System.out.println(entity);
+            logger.info("Entity found {}",entity);
         }
     }
 
     @Override
     public void findAll() {
-        List<T> rows = this.dao.getAll();
-        System.out.println(rows);
+        List<T> entities = this.dao.getAll();
+        if (entities.isEmpty()) {
+            logger.warn("No records found");
+        } else {
+            entities.forEach(logger::info);
+        }
     }
 
     @Override
     public void add() {
         T entity = (T) ReflectionUtils.askForEntityAttributes(this.type,null);
         this.dao.save(entity);
+        logger.info("Record added to Database");
     }
 
     @Override
@@ -48,10 +56,10 @@ public class DatabaseService<T> implements Services<T> {
         int id = MenuService.getIntegerInput();
         T entity = this.dao.getById(id);
         if(entity == null){
-            System.out.println("No row found for that ID.");
+            logger.warn("No records found");
             return;
         }
-        System.out.println("Object Found: \n"+entity);
+        logger.info("Record found {}",entity);
         T newEntity = (T) ReflectionUtils.askForEntityAttributes(this.type,excludeFields); //create a new object
         newEntity = (T) ReflectionUtils.setID(newEntity,id); // object with modified attributes.
         this.dao.update(entity,ReflectionUtils.extractEntityAttributes(newEntity,entity));
@@ -62,7 +70,12 @@ public class DatabaseService<T> implements Services<T> {
         System.out.println("ID: ");
         int id = MenuService.getIntegerInput();
         T entity = this.dao.getById(id);
+        if(entity == null){
+            logger.warn("{} not found.", this.type.getSimpleName());
+            return;
+        }
         this.dao.remove((T) entity);
+        logger.info("Record deleted from Database");
     }
 
     @Override

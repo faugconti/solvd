@@ -3,16 +3,11 @@ package travelAgency.service;
 
 public class ServiceFactory {
     public static <T> Services<T> getService(String dataSource,Class<T> entityClass){
-        switch(dataSource.toLowerCase()){
-            case "database":
-                return new DatabaseService<T>(entityClass);
-            case "xml":
-                return new XMLService<T>(entityClass);
-            case "json":
-                return new JSONService<T>(entityClass);
-            default:
-                throw new IllegalArgumentException("Unsupported data source");
-        }
-
+        return switch (dataSource.toLowerCase()) {
+            case "database" -> new DatabaseService<T>(entityClass);
+            case "xml" -> new XMLService<T>(entityClass);
+            case "json" -> new JSONService<T>(entityClass);
+            default -> throw new IllegalArgumentException("Unsupported data source");
+        };
     }
 }
