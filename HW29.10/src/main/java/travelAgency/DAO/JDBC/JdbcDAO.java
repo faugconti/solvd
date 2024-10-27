@@ -8,12 +8,19 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public abstract class JdbcDAO<T> implements DAO<T>, Entity<T> {
+public class JdbcDAO<T> implements DAO<T>, Entity<T> {
+    private final Class<T> entityClass; // from model folder
+
+    public JdbcDAO(Class<T> entityClass) {
+        this.entityClass = entityClass;
+    }
 
     public Connection getConnection(){
         //retrieve jdbc connection
@@ -184,4 +191,43 @@ public abstract class JdbcDAO<T> implements DAO<T>, Entity<T> {
     }
 
 
+    @Override
+    public T mapResultSetToEntity(ResultSet resultSet) throws SQLException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        T entity = entityClass.getDeclaredConstructor().newInstance();
+        for (Field field : entityClass.getDeclaredFields()) {
+            field.setAccessible(true);
+            String columnName = field.getName();
+            // check for LocalDate..
+            if (field.getType().equals(LocalDate.class)) {
+                // get the value from the result set as a java.sql.Date
+                Date sqlDate = resultSet.getDate(columnName); // using SQL Date , not util
+                if (sqlDate != null) {
+                    // Convert java.sql.Date to LocalDate
+                    LocalDate localDate = sqlDate.toLocalDate();
+                    field.set(entity, localDate);
+                }
+            }else{
+                field.set(entity, resultSet.getObject(columnName));
+            }
+        }
+        return entity;
+    }
+
+
+
+    @Override
+    public List<String> getColumnNames() {
+        List<String> mappings = new LinkedList<>();
+        for (Field field : entityClass.getDeclaredFields()) {
+            mappings.add(field.getName());
+        }
+        return mappings;
+    }
+
+
+
+    @Override
+    public String getTableName() {
+        return entityClass.getSimpleName();
+    }
 }
