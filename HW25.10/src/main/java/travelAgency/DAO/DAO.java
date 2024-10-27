@@ -9,8 +9,4 @@ public interface DAO <T>{
     void save(T t);
     void update(T t,String[] params);
     void remove(T t);
-
-    T findById(Long id);
-
-    List<T> findAll();
 }

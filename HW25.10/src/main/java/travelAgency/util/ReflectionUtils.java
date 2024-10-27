@@ -25,7 +25,7 @@ public class ReflectionUtils {
         Object entityInstance = entityClass.getDeclaredConstructor().newInstance();
 
         for (Field field : entityClass.getDeclaredFields()) {
-            field.setAccessible(true); // Make private fields accessible
+            field.setAccessible(true);
 
             String fieldType = field.getType().getSimpleName();
             String fieldName = field.getName();

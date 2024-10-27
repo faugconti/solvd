@@ -16,14 +16,14 @@ import travelAgency.DAO.DAO;
 
 public class MyBatisDAO<T> implements DAO<T> {
 
-    protected SqlSessionFactory sqlSessionFactory;
-    protected Class<T> entityClass;
+    private final SqlSessionFactory sqlSessionFactory;
+    private final Class<T> entityClass;
 
     public MyBatisDAO(Class<T> entityClass) {
         this.entityClass = entityClass;
         try {
-            String resource = "MyBatis/batisConfig.xml";
-            InputStream inputStream = Resources.getResourceAsStream(resource);
+            String configFile = "MyBatis/batisConfig.xml";
+            InputStream inputStream = Resources.getResourceAsStream(configFile);
             this.sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         } catch (IOException e) {
             throw new RuntimeException("Error initializing SqlSessionFactory", e);
