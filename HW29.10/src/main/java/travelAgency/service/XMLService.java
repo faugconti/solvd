@@ -1,8 +1,5 @@
 package travelAgency.service;
 
-import travelAgency.DAO.DAO;
-import travelAgency.DAO.JDBC.EntityDAO;
-import travelAgency.DAO.MyBatis.MyBatisDAO;
 import travelAgency.util.ReflectionUtils;
 import travelAgency.util.XMLUtils;
 import travelAgency.util.enums.Entities;
@@ -11,16 +8,11 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.util.List;
 
-public class XMLService<T> implements Services<T> {
-
-    public final DAO<T> dao;
-    private final Class<T> type;
+public class XMLService<T> extends AbstractService<T> {
 
     public XMLService(Class<T> entityClass){
-        this.dao = new MyBatisDAO<>(entityClass);
-        this.type = entityClass;
+        super(entityClass);
     }
-
 
     @Override
     public void findById() {

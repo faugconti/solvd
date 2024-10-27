@@ -2,9 +2,6 @@ package travelAgency.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import travelAgency.DAO.DAO;
-import travelAgency.DAO.JDBC.EntityDAO;
-import travelAgency.DAO.MyBatis.MyBatisDAO;
 import travelAgency.util.JSONUtils;
 import travelAgency.util.ReflectionUtils;
 import travelAgency.util.enums.Entities;
@@ -13,14 +10,11 @@ import java.io.IOException;
 
 import java.util.List;
 
-public class JSONService<T> implements Services<T> {
+public class JSONService<T> extends AbstractService<T> {
     private static final Logger logger = LogManager.getLogger(JSONService.class);
-    public final DAO<T> dao;
-    private final Class<T> type;
 
     public JSONService(Class<T> entityClass){
-        this.dao = new MyBatisDAO<>(entityClass);
-        this.type = entityClass;
+        super(entityClass);
     }
     @Override
     public void findById() {

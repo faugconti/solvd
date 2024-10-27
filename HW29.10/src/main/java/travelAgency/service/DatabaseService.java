@@ -2,22 +2,16 @@ package travelAgency.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import travelAgency.DAO.DAO;
-import travelAgency.DAO.JDBC.EntityDAO;
-import travelAgency.DAO.MyBatis.MyBatisDAO;
 import travelAgency.util.ReflectionUtils;
 
 import java.util.List;
 
-public class DatabaseService<T> implements Services<T> {
+public class DatabaseService<T> extends AbstractService<T> {
 
-    public final DAO<T> dao;
-    private final Class<T> type;
     private static final Logger logger = LogManager.getLogger(DatabaseService.class);
 
     public DatabaseService(Class<T> entityClass){
-        this.dao = new MyBatisDAO<>(entityClass);
-        this.type = entityClass;
+        super(entityClass);
     }
 
     @Override
