@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Hotel">
+    <select id="findById" resultType="travelAgency.model.Hotel">
+        SELECT * FROM Hotel WHERE idHotel = #{id}
+    </select>
+    <select id="findAll" resultType="travelAgency.model.Hotel">
+        SELECT * FROM Hotel
+    </select>
+    <insert id="add" parameterType="travelAgency.model.Hotel">
+        INSERT INTO Hotel (description, address, name)
+        VALUES (#{description}, #{address}, #{name})
+    </insert>
+    <update id="update" parameterType="map">
+        UPDATE Hotel
+        <set>
+            <if test="params[1] != null">name = #{params[3]},</if>
+            <if test="params[2] != null">address = #{params[2]},</if>
+            <if test="params[3] != null">description = #{params[1]},</if>
+        </set>
+        WHERE idHotel = #{id}
+    </update>
+    <delete id="remove" parameterType="travelAgency.model.Hotel">
+        DELETE FROM Hotel WHERE idHotel = #{idHotel}
+    </delete>
+    <update id="disableForeignKeyChecks">
+        SET FOREIGN_KEY_CHECKS = 0
+    </update>
+    <update id="enableForeignKeyChecks">
+        SET FOREIGN_KEY_CHECKS = 1
+    </update>
+</mapper>
