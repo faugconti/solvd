@@ -3,6 +3,8 @@ package travelAgency.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import travelAgency.util.enums.Entities;
 
 import javax.xml.bind.Unmarshaller;
@@ -16,6 +18,8 @@ public class JSONUtils {
 
     private final static String outputDir = "target/";
     private final static String inputDir = "src/main/resources/";
+    private static final Logger logger = LogManager.getLogger(JSONUtils.class);
+
 
     public static void marshallListEntity(Class<?> pluralClass, List<?> entities) throws IOException {
         String outputFile = outputDir + pluralClass.getSimpleName() + System.currentTimeMillis() + ".json";
@@ -70,14 +74,13 @@ public class JSONUtils {
                 if (node != null) {
                     Object entity = mapper.treeToValue(node, entityClass);
                     // entitiesMap.put(entityClass, entity);
-                    System.out.println("Unmarshalled Entity (" + nodeName + "): " + entity);
+                    logger.info("Unmarshalled Entity ({}): {}", nodeName, entity);
                 } else {
-                    System.out.println("No JSON node found for entity: " + nodeName);
+                    logger.warn("No JSON node found for entity: {}", nodeName);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("Error while reading or parsing the JSON file.");
+            logger.error("Error while reading or parsing the JSON file.");
         }
     }
 
@@ -89,7 +92,7 @@ public class JSONUtils {
                 "src/main/resources/Entities.json");
         ;
 
-        System.out.println(
+        logger.info(
                 unmarshallListEntity(Entities.Customer.getEntityClass(), "src/main/resources/customersTest.json"));
     }
 }

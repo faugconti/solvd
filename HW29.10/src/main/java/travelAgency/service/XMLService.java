@@ -1,5 +1,7 @@
 package travelAgency.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import travelAgency.util.ReflectionUtils;
 import travelAgency.util.XMLUtils;
 import travelAgency.util.enums.Entities;
@@ -9,6 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class XMLService<T> extends AbstractService<T> {
+    private static final Logger logger = LogManager.getLogger(XMLService.class);
 
     public XMLService(Class<T> entityClass){
         super(entityClass);
@@ -20,7 +23,7 @@ public class XMLService<T> extends AbstractService<T> {
         int id = MenuService.getIntegerInput();
         T entity = this.dao.getById(id);
         if(entity == null){
-            System.out.println(this.type.getSimpleName()+" not found.");
+            logger.error("{} not found.", this.type.getSimpleName());
             return;
         }
         try {
@@ -51,6 +54,7 @@ public class XMLService<T> extends AbstractService<T> {
         } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
+        logger.info("Record added to Database");
     }
 
 
@@ -61,7 +65,7 @@ public class XMLService<T> extends AbstractService<T> {
         int id = MenuService.getIntegerInput();
         T entity = this.dao.getById(id);
         if (entity == null) {
-            System.out.println("No row found for that ID.");
+            logger.error("No row found for that ID.");
             return;
         }
         String baseDirectory = "src/main/resources/";
@@ -74,6 +78,7 @@ public class XMLService<T> extends AbstractService<T> {
             throw new RuntimeException(e);
         }
         this.dao.update(entity, ReflectionUtils.extractEntityAttributes(newEntity,entity));
+        logger.info("Record updated");
 
     }
 
@@ -87,6 +92,7 @@ public class XMLService<T> extends AbstractService<T> {
         } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
+        logger.info("Record deleted from Database");
     }
 
     @Override

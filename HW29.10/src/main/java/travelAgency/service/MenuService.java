@@ -1,5 +1,7 @@
 package travelAgency.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import travelAgency.DAO.DAO;
 import travelAgency.DAO.JDBC.JdbcDAO;
 import travelAgency.DAO.MyBatis.MyBatisDAO;
@@ -16,6 +18,7 @@ public class MenuService {
     private static String dataSource = "";
     private static String daoStrategy = ""; //default dao strategy
     private static List<Entities> entities = Arrays.asList(Entities.Customer,Entities.Employee, Entities.Excursion, Entities.Hotel, Entities.Booking); //for testing
+    private static final Logger logger = LogManager.getLogger(MenuService.class);
 
     public static void mainMenu(){
         while (true) {
@@ -38,12 +41,12 @@ public class MenuService {
                     break;
                 case 3:
                     if (!dataSource.isEmpty() && !daoStrategy.isEmpty()) selectEntityMenu();
-                    else System.out.println("You need to choose a Data source and DAO Strategy first");
+                    else logger.warn("You need to choose a Data source and DAO Strategy first");
                     break;
                 case 4:
                     System.exit(0);
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    logger.warn("Invalid choice. Please try again.");
             }
         }
     }
@@ -67,10 +70,10 @@ public class MenuService {
                 dataSource = "JSON";
                 break;
             default:
-                System.out.println("Invalid choice. Please try again.");
+                logger.warn("Invalid choice. Please try again.");
                 return;
         }
-        System.out.println("Data source set to: " + dataSource);
+        logger.info("Data source set to: {}", dataSource);
     }
 
     private static void selectEntityMenu() {
@@ -85,7 +88,7 @@ public class MenuService {
             Entities selectedEntity = entities.get(choice - 1);
             manageEntityMenu(selectedEntity);
         } else {
-            System.out.println("Invalid choice. Please try again.");
+            logger.warn("Invalid choice. Please try again.");
         }
     }
 
@@ -104,10 +107,10 @@ public class MenuService {
                 daoStrategy = "mybatis";
                 break;
             default:
-                System.out.println("Invalid choice. Please try again.");
+                logger.warn("Invalid choice. Please try again.");
                 return;
         }
-        System.out.println("DAO strategy set to: " + daoStrategy);
+        logger.info("DAO strategy set to: {}", daoStrategy);
     }
 
 
@@ -151,7 +154,7 @@ public class MenuService {
                 case 6 :
                     return;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    logger.warn("Invalid choice. Please try again.");
             }
         }
     }
@@ -162,7 +165,7 @@ public class MenuService {
             try {
                 return Integer.parseInt(input.nextLine());
             } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a number.");
+                logger.warn("Invalid input. Please enter a number.");
             }
         }
     }

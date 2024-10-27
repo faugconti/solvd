@@ -1,5 +1,7 @@
 package travelAgency.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,17 +27,18 @@ import java.util.List;
 
 public class XMLUtils {
 
+    private static final Logger logger = LogManager.getLogger(XMLUtils.class);
+
     public static boolean validateFiles(String xmlFilePath,String xsdFilepath) {
         try {
             File xmlFile = new File(xmlFilePath);
             File xsdFile = new File(xsdFilepath);
-            System.out.println(xmlFile);
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Schema xsdSchema = factory.newSchema(xsdFile);
             Validator validator = xsdSchema.newValidator();
             validator.validate(new StreamSource(xmlFile));
         } catch (SAXException | IOException e) {
-            System.out.println(e);
+            logger.error(e);
             return false; // if invalid exc is raised?
         }
         return true;
@@ -51,7 +54,7 @@ public class XMLUtils {
             document.getDocumentElement().normalize(); //remove whitespaces
 
             Element root = document.getDocumentElement(); // root element
-            System.out.println("Root Node: "+root.getNodeName());
+            logger.info("Root Node: {}", root.getNodeName());
             NodeList nodeList = root.getChildNodes(); // get children from root
 
             for(int i=0;i < nodeList.getLength(); i++){
@@ -60,13 +63,14 @@ public class XMLUtils {
                 //is the node an element node?
                 if(node.getNodeType() == Node.ELEMENT_NODE){
                     Element element = (Element) node;
-                    System.out.println("Node name: "+element.getNodeName());
+
+                    logger.info("Node name: {}", element.getNodeName());
 
                     //does the node have attributes?
                     if(element.hasAttributes()){
                         for(int j = 0; j < element.getAttributes().getLength(); j++){
                             Node attribute = element.getAttributes().item(j);
-                            System.out.println("\tAttribute: "+attribute);
+                            logger.info("\tAttribute: {}", attribute);
                         }
                     }
 
@@ -78,7 +82,7 @@ public class XMLUtils {
                         // Check if the child node is an element node
                         if (child.getNodeType() == Node.ELEMENT_NODE) {
                             Element childElement = (Element) child;
-                            System.out.println("\tChild Node: " + childElement.getNodeName() + " = " + childElement.getTextContent());
+                            logger.info("\tChild Node: {} = {}", childElement.getNodeName(), childElement.getTextContent());
                         }
                     }
                 }
@@ -103,7 +107,7 @@ public class XMLUtils {
 
 
         File xmlFile = new File(xmlFilePath);
-        System.out.println("Reading "+ entityClass+" "+xmlFilePath);
+        logger.info("Reading {} {}", entityClass, xmlFilePath);
         JAXBContext context = JAXBContext.newInstance(entityClass);
         Unmarshaller unmarshaller = context.createUnmarshaller();
 
@@ -133,9 +137,9 @@ public class XMLUtils {
     public static void main(String args[]) throws JAXBException {
         String xmlFilePath = "src/main/resources/travelAgency.xml";
         String xsdFilePath = "src/main/resources/travelAgency.xsd";
-        //System.out.println("¿Are the files valid?: "+validateFiles(xmlFilePath,xsdFilePath));
-        //parseXmlFile(xmlFilePath);
-        System.out.println(JAXunmarshaller(Entities.Customer,"src/main/resources/customerTest.xml"));
+        //logger.info("¿Are the files valid?: {}", validateFiles(xmlFilePath, xsdFilePath));
+        parseXmlFile(xmlFilePath);
+        //logger.info(JAXunmarshaller(Entities.Customer,"src/main/resources/customerTest.xml"));
 
     }
 }
