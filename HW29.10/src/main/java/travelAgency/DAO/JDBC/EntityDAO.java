@@ -8,7 +8,7 @@ import java.util.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class EntityDAO<T> extends AbstractDAO<T> {
+public class EntityDAO<T> extends JdbcDAO<T> {
     private final Class<T> entityClass; // from model folder
 
     public EntityDAO(Class<T> entityClass){
