@@ -1,5 +1,8 @@
 package travelAgency.service;
 
+import travelAgency.DAO.DAO;
+import travelAgency.DAO.JDBC.JdbcDAO;
+import travelAgency.DAO.MyBatis.MyBatisDAO;
 import travelAgency.util.ReflectionUtils;
 import travelAgency.util.enums.Entities;
 
@@ -11,14 +14,16 @@ public class MenuService {
 
     static final Scanner input = new Scanner(System.in);
     private static String dataSource = "";
+    private static String daoStrategy = ""; //default dao strategy
     private static List<Entities> entities = Arrays.asList(Entities.Customer,Entities.Employee, Entities.Excursion, Entities.Hotel, Entities.Booking); //for testing
 
     public static void mainMenu(){
         while (true) {
             System.out.println("1. Select Data Source");
             if (!dataSource.isEmpty()) {
-                System.out.println("2. Manage Entities");
-                System.out.println("3. Exit");
+                System.out.println("2. Select DAO Strategy");
+                System.out.println("3. Manage Entities");
+                System.out.println("4. Exit");
             }
             System.out.print("Enter your choice: ");
             int choice = input.nextInt();
@@ -29,9 +34,13 @@ public class MenuService {
                     selectDataSource();
                     break;
                 case 2:
-                    if (!dataSource.isEmpty()) selectEntityMenu();
+                    selectDAOStrategy();
                     break;
                 case 3:
+                    if (!dataSource.isEmpty() && !daoStrategy.isEmpty()) selectEntityMenu();
+                    else System.out.println("You need to choose a Data source and DAO Strategy first");
+                    break;
+                case 4:
                     System.exit(0);
                 default:
                     System.out.println("Invalid choice. Please try again.");
@@ -80,6 +89,28 @@ public class MenuService {
         }
     }
 
+    private static void selectDAOStrategy() {
+        System.out.println("Please Select your DAO strategy");
+        System.out.println("1. JDBC");
+        System.out.println("2. MyBatis");
+        System.out.print("Enter: ");
+        int choice = input.nextInt();
+        input.nextLine();
+        switch (choice) {
+            case 1:
+                daoStrategy = "jdbc";
+                break;
+            case 2:
+                daoStrategy = "mybatis";
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+                return;
+        }
+        System.out.println("DAO strategy set to: " + daoStrategy);
+    }
+
+
     private static void manageEntityMenu(Entities entity) {
         while (true) {
             System.out.println("1. Add " + entity);
@@ -92,21 +123,30 @@ public class MenuService {
             int choice = input.nextInt();
             input.nextLine();
 
+            Services<?> service = ServiceFactory.getService(dataSource,entity.getEntityClass());
+
+            DAO<?> daoImpl = switch (daoStrategy) {
+                case "jdbc" -> new JdbcDAO<>(entity.getEntityClass());
+                case "mybatis" -> new MyBatisDAO<>(entity.getEntityClass());
+                default -> throw new IllegalStateException("Invalid DAO strategy");
+            };
+            ((AbstractService<?>) service).setDAOStrategy(daoImpl);
+
             switch (choice) {
                 case 1:
-                    ServiceFactory.getService(dataSource,entity.getEntityClass()).add();
+                    service.add();
                     break;
                 case 2:
-                    ServiceFactory.getService(dataSource,entity.getEntityClass()).update();
+                    service.update();
                     break;
                 case 3:
-                    ServiceFactory.getService(dataSource,entity.getEntityClass()).remove();
+                    service.remove();
                     break;
                 case 4:
-                    ServiceFactory.getService(dataSource,entity.getEntityClass()).findById();
+                    service.findById();
                     break;
                 case 5:
-                    ServiceFactory.getService(dataSource,entity.getEntityClass()).findAll();
+                    service.findAll();
                     break;
                 case 6 :
                     return;
@@ -131,6 +171,4 @@ public class MenuService {
         System.out.println(message);
         return input.nextLine().trim();
     }
-
-
 }
