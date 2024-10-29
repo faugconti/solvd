@@ -8,6 +8,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import travelAgency.util.enums.Entities;
+import travelAgency.util.interfaces.DataMarshaller;
+import travelAgency.util.interfaces.XMLValidator;
+import travelAgency.util.interfaces.XmlParse;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -25,11 +28,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class XMLUtils {
+public class XMLHandler implements DataMarshaller, XmlParse, XMLValidator {
 
-    private static final Logger logger = LogManager.getLogger(XMLUtils.class);
+    private static final Logger logger = LogManager.getLogger(XMLHandler.class);
+    private final static String inputDir = "src/main/resources/";
 
-    public static boolean validateFiles(String xmlFilePath,String xsdFilepath) {
+    @Override
+    public boolean validateFiles(String xmlFilePath,String xsdFilepath) {
         try {
             File xmlFile = new File(xmlFilePath);
             File xsdFile = new File(xsdFilepath);
@@ -44,8 +49,8 @@ public class XMLUtils {
         return true;
     }
 
-    //DOM Parser
-    public static void parseXmlFile(String xmlFilePath){
+    @Override
+    public void parseXmlFile(String xmlFilePath){
         File inputFile = new File(xmlFilePath);
         try{
 
@@ -94,52 +99,61 @@ public class XMLUtils {
 
     }
 
-    public static Object JAXunmarshaller(Entities entity, String xmlFilePath) throws JAXBException {
-        File xmlFile = new File(xmlFilePath);
 
-        JAXBContext context = JAXBContext.newInstance(entity.getEntityClass());
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-
-        return unmarshaller.unmarshal(xmlFile);
+    @Override
+    public void marshallSingleEntity(Object entity, String outputPath) {
+        String outputFile = outputPath+entity.getClass().getSimpleName()+System.currentTimeMillis()+".xml";
+        JAXBContext context = null;
+        try {
+            context = JAXBContext.newInstance(entity.getClass());
+            Marshaller mar= null;
+            mar = context.createMarshaller();
+            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            mar.marshal(entity, new File(outputFile));
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static Object JAXunmarshaller(Class<?> entityClass, String xmlFilePath) throws JAXBException {
+    @Override
+    public Object unmarshallSingleEntity(String inputPath, Class<?> entityClass) {
+        File xmlFile = new File(inputDir+inputPath);
 
-
-        File xmlFile = new File(xmlFilePath);
-        logger.info("Reading {} {}", entityClass, xmlFilePath);
-        JAXBContext context = JAXBContext.newInstance(entityClass);
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-
-        return unmarshaller.unmarshal(xmlFile);
+        JAXBContext context = null;
+        try {
+            context = JAXBContext.newInstance(entityClass);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            return unmarshaller.unmarshal(xmlFile);
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static void marshallList(Class<?> pluralClass, List<?> singularList) throws JAXBException,IOException{
-        String outputDir = "target/";
-        String outputFile = outputDir+pluralClass.getSimpleName()+System.currentTimeMillis()+".xml";
+    @Override
+    public void marshallListEntity(Class<?> className, List<?> entities, String outputPath) {
+        Class<?> pluralClass = Entities.getPluralClassForEntity(className);
+        String outputFile = outputPath+pluralClass.getSimpleName()+System.currentTimeMillis()+".xml";
 
-        Object wrapper = ReflectionUtils.getPluralList(pluralClass,singularList);
-        JAXBContext context = JAXBContext.newInstance(pluralClass);
-        Marshaller mar= context.createMarshaller();
-        mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        mar.marshal(wrapper, new File(outputFile));
+        JAXBContext context = null;
+        try {
+            context = JAXBContext.newInstance(pluralClass);
+            Marshaller mar= context.createMarshaller();
+            mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            mar.marshal(ReflectionUtils.getPluralList(pluralClass,entities), new File(outputFile));
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static void marshallSingleEntity(Class<?> entityClass,Object entity) throws JAXBException {
-        String outputDir = "target/";
-        String outputFile = outputDir+entityClass.getSimpleName()+System.currentTimeMillis()+".xml";
-        JAXBContext context = JAXBContext.newInstance(entityClass);
-        Marshaller mar= context.createMarshaller();
-        mar.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        mar.marshal(entity, new File(outputFile));
-    }
-
-    public static void main(String args[]) throws JAXBException {
-        String xmlFilePath = "src/main/resources/travelAgency.xml";
-        String xsdFilePath = "src/main/resources/travelAgency.xsd";
-        //logger.info("¿Are the files valid?: {}", validateFiles(xmlFilePath, xsdFilePath));
-        parseXmlFile(xmlFilePath);
-        //logger.info(JAXunmarshaller(Entities.Customer,"src/main/resources/customerTest.xml"));
-
+    @Override
+    public List<?> unmarshallListEntity(String inputPath, Class<?> entityClass) {
+        File xmlFile = new File(inputPath);
+        try {
+            JAXBContext context = JAXBContext.newInstance(entityClass);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            return (List<?>) unmarshaller.unmarshal(xmlFile);
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

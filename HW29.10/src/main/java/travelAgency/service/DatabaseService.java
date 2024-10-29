@@ -18,7 +18,7 @@ public class DatabaseService<T> extends AbstractService<T> {
     public void findById() {
         System.out.println("ID: ");
         int id = MenuService.getIntegerInput();
-        T entity = this.dao.getById(id);
+        T entity = this.daoStrategy.getById(id);
         if(entity == null){
             logger.warn("No records found");
         }else{
@@ -28,7 +28,7 @@ public class DatabaseService<T> extends AbstractService<T> {
 
     @Override
     public void findAll() {
-        List<T> entities = this.dao.getAll();
+        List<T> entities = this.daoStrategy.getAll();
         if (entities.isEmpty()) {
             logger.warn("No records found");
         } else {
@@ -39,7 +39,7 @@ public class DatabaseService<T> extends AbstractService<T> {
     @Override
     public void add() {
         T entity = (T) ReflectionUtils.askForEntityAttributes(this.type,null);
-        this.dao.save(entity);
+        this.daoStrategy.save(entity);
         logger.info("Record added to Database");
     }
 
@@ -48,7 +48,7 @@ public class DatabaseService<T> extends AbstractService<T> {
         List<String> excludeFields = List.of("id"+this.getType().getSimpleName());
         System.out.print("ID: ");
         int id = MenuService.getIntegerInput();
-        T entity = this.dao.getById(id);
+        T entity = this.daoStrategy.getById(id);
         if(entity == null){
             logger.warn("No records found");
             return;
@@ -56,19 +56,19 @@ public class DatabaseService<T> extends AbstractService<T> {
         logger.info("Record found {}",entity);
         T newEntity = (T) ReflectionUtils.askForEntityAttributes(this.type,excludeFields); //create a new object
         newEntity = (T) ReflectionUtils.setID(newEntity,id); // object with modified attributes.
-        this.dao.update(entity,ReflectionUtils.extractEntityAttributes(newEntity,entity));
+        this.daoStrategy.update(entity,ReflectionUtils.extractEntityAttributes(newEntity,entity));
     }
 
     @Override
     public void remove() {
         System.out.println("ID: ");
         int id = MenuService.getIntegerInput();
-        T entity = this.dao.getById(id);
+        T entity = this.daoStrategy.getById(id);
         if(entity == null){
             logger.warn("{} not found.", this.type.getSimpleName());
             return;
         }
-        this.dao.remove((T) entity);
+        this.daoStrategy.remove((T) entity);
         logger.info("Record deleted from Database");
     }
 

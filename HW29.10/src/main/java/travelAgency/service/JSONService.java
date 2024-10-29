@@ -2,31 +2,33 @@ package travelAgency.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import travelAgency.util.JSONUtils;
+import travelAgency.util.interfaces.DataMarshaller;
 import travelAgency.util.ReflectionUtils;
 import travelAgency.util.enums.Entities;
-
-import java.io.IOException;
 
 import java.util.List;
 
 public class JSONService<T> extends AbstractService<T> {
     private static final Logger logger = LogManager.getLogger(JSONService.class);
+    private DataMarshaller marshaller;
+    private final String outputPath = "target/";;
 
-    public JSONService(Class<T> entityClass){
+    public JSONService(Class<T> entityClass,DataMarshaller marshaller){
         super(entityClass);
+        this.marshaller = marshaller;
     }
+
     @Override
     public void findById() {
         System.out.println("ID: ");
         int id = MenuService.getIntegerInput();
-        T entity = this.dao.getById(id);
+        T entity = this.daoStrategy.getById(id);
         if(entity == null){
             logger.warn("{} not found.", this.type.getSimpleName());
             return;
         }
         try {
-            JSONUtils.marshallSingleEntity(this.type,entity);
+            marshaller.marshallSingleEntity(entity,outputPath);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -34,31 +36,21 @@ public class JSONService<T> extends AbstractService<T> {
 
     @Override
     public void findAll() {
-        List<T> entities = dao.getAll();
-        try {
-            JSONUtils.marshallListEntity(Entities.getPluralClassForEntity(this.type),entities);
-        } catch ( IOException e) {
-            throw new RuntimeException(e);
-        }
+        List<T> entities = daoStrategy.getAll();
+        marshaller.marshallListEntity(Entities.getPluralClassForEntity(this.type),entities,outputPath);
     }
 
     @Override
     public void add() {
         String inputFile = MenuService.askForInput("Please enter the complete name of the JSON File to parse under /resources: ");
-        try {
-            this.dao.save((T) JSONUtils.unmarshallSingleEntity(this.type,inputFile));
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+        this.daoStrategy.save((T) marshaller.unmarshallSingleEntity(inputFile,this.type));
     }
 
     @Override
     public void update() {
         System.out.print("ID: ");
         int id = MenuService.getIntegerInput();
-        T entity = this.dao.getById(id);
+        T entity = this.daoStrategy.getById(id);
         if (entity == null) {
             logger.warn("{} not found.", this.type.getSimpleName());
             return;
@@ -66,25 +58,16 @@ public class JSONService<T> extends AbstractService<T> {
         // read from JSON
         String inputFile = MenuService.askForInput("Please enter the complete name of the JSON File to parse under /resources: ");
         T newEntity;
-        try {
-            newEntity = ((T) JSONUtils.unmarshallSingleEntity(this.type, inputFile));
-        } catch (IOException e) {
-            logger.error("Error while updating entity");
-            return;
-        }
-        this.dao.update(entity, ReflectionUtils.extractEntityAttributes(newEntity,entity));
+        newEntity = ((T) marshaller.unmarshallSingleEntity(inputFile,this.type));
+        this.daoStrategy.update(entity, ReflectionUtils.extractEntityAttributes(newEntity,entity));
         logger.info("Entity updated");
     }
 
     @Override
     public void remove() {
         String inputFile = MenuService.askForInput("Please enter the complete name of the JSON File to parse under /resources: ");
-
-        try {
-            this.dao.remove((T) JSONUtils.unmarshallSingleEntity(this.type,inputFile));
-        }  catch (IOException e) {
-            logger.error("Error while deleting entity");
-        }
+        this.daoStrategy.remove((T) marshaller.unmarshallSingleEntity(inputFile,this.type));
+        logger.error("Error while deleting entity");
         logger.info("Entity deleted");
     }
 
