@@ -1,0 +1,42 @@
+{
+  "Customer":
+  {
+    "idCustomer": 140,
+    "firstName": "Manuel",
+    "lastName": "Jackson",
+    "email": "john.doe@example.com",
+    "phone": "032812321"
+  },
+  "Employee":
+  {
+    "idEmployee": 201,
+    "firstName": "Alice",
+    "lastName": "Pain",
+    "role": "Travel Agent",
+    "phone": "321123321",
+    "email": "alcie@solvd.com",
+    "hireDate": "2023-05-29"
+  },
+  "Hotel":
+  {
+    "idHotel": 1001,
+    "description": "Luxury hotel",
+    "address": "Maine 4300, Paris Metropolitan",
+    "name": "Garden Inn"
+  },
+  "Excursion": {
+    "idExcursion": 30,
+    "description": "Baguette and wine in different restaurants",
+    "name": "Wine tasting in Paris",
+    "duration": 4,
+    "price": 1000
+  },
+  "Booking": {
+    "idBooking": 400,
+    "idCustomer": 140,
+    "idTrip": 1,
+    "idEmployee": 2,
+    "bookingDate": "2024-05-05",
+    "totalPrice": 1000
+  }
+}
