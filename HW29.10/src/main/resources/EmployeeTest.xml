@@ -1,0 +1,8 @@
+<Employee idEmployee="503">
+        <firstName>James</firstName>
+        <lastName>Williams</lastName>
+        <phone>1234</phone>
+        <role>Seller</role>
+        <email>job@solvd.com</email>
+        <hireDate>2024-02-01</hireDate>
+ </Employee>

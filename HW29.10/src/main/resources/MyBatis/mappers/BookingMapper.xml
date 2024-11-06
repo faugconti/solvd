@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Booking">
+    <select id="findById" resultType="travelAgency.model.Booking">
+        SELECT * FROM Booking WHERE idBooking = #{id}
+    </select>
+    <select id="findAll" resultType="travelAgency.model.Booking">
+        SELECT * FROM Booking
+    </select>
+    <insert id="add" parameterType="travelAgency.model.Booking">
+        INSERT INTO Booking (idCustomer, idTrip, idEmployee, bookingDate, totalPrice)
+        VALUES (#{idCustomer}, #{idTrip}, #{idEmployee}, #{bookingDate}, #{totalPrice})
+    </insert>
+    <update id="update" parameterType="map">
+        UPDATE Booking
+        <set>
+            <if test="params[1] != null">idCustomer = #{params[1]},</if>
+            <if test="params[2] != null">idTrip = #{params[2]},</if>
+            <if test="params[3] != null">idEmployee = #{params[3]},</if>
+            <if test="params[4] != null">bookingDate = #{params[4]},</if>
+            <if test="params[5] != null">totalPrice = #{params[5]}</if>
+        </set>
+        WHERE idBooking = #{id}
+    </update>
+    <delete id="remove" parameterType="travelAgency.model.Booking">
+        DELETE FROM Booking WHERE idBooking = #{idBooking}
+    </delete>
+    <update id="disableForeignKeyChecks">
+        SET FOREIGN_KEY_CHECKS = 0
+    </update>
+    <update id="enableForeignKeyChecks">
+        SET FOREIGN_KEY_CHECKS = 1
+    </update>
+</mapper>

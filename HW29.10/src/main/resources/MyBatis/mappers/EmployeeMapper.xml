@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Employee">
+    <select id="findById" resultType="travelAgency.model.Employee">
+        SELECT * FROM Employee WHERE idEmployee = #{id}
+    </select>
+    <select id="findAll" resultType="travelAgency.model.Employee">
+        SELECT * FROM Employee
+    </select>
+    <insert id="add" parameterType="travelAgency.model.Employee">
+        INSERT INTO Employee (firstName, lastName, email, phone, role, hireDate)
+        VALUES (#{firstName}, #{lastName}, #{email}, #{phone}, #{role}, #{hireDate})
+    </insert>
+    <update id="update" parameterType="map">
+        UPDATE Employee
+        <set>
+            <if test="params[1] != null">firstName = #{params[1]},</if>
+            <if test="params[2] != null">lastName = #{params[2]},</if>
+            <if test="params[3] != null">phone = #{params[3]},</if>
+            <if test="params[4] != null">role = #{params[4]},</if>
+            <if test="params[5] != null">email = #{params[5]},</if>
+            <if test="params[6] != null">hireDate = #{params[6]}</if>
+        </set>
+        WHERE idEmployee = #{id}
+    </update>
+    <delete id="remove" parameterType="travelAgency.model.Employee">
+        DELETE FROM Employee WHERE idEmployee = #{idEmployee}
+    </delete>
+    <update id="disableForeignKeyChecks">
+        SET FOREIGN_KEY_CHECKS = 0
+    </update>
+    <update id="enableForeignKeyChecks">
+        SET FOREIGN_KEY_CHECKS = 1
+    </update>
+</mapper>
