@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "data": {
+    "id": "regex:[0-9]",
+    "employee_name": "regex:[a-zA-Z\\d]+",
+    "employee_salary": "regex:[0-9]|[1-9][0-9]{1,5}|1000000",
+    "employee_age": "regex:[0-9]|[1-9][0-9]|100",
+    "profile_image": "skip"
+  },
+  "message": "Successfully! Record has been fetched."
+}

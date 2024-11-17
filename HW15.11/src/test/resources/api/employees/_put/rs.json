@@ -1,0 +1,9 @@
+{
+  "status": "success",
+  "data": {
+    <#if employee_name??>"name": "${employee_name}",</#if>
+    <#if employee_salary??>"salary": "${employee_salary}",</#if>
+    <#if employee_age??>"age": "${employee_age}",</#if>
+  },
+  "message": "Successfully! Record has been updated."
+}
