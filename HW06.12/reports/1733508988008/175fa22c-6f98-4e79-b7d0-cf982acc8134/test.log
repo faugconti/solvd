@@ -1,0 +1,40 @@
+[2024-12-06 06:16:33] [1] [WARN] Reporting disabled: using no op test run registrar
+[2024-12-06 06:16:33] [1] [INFO] TEST [HW06.12 - testSignUp] STARTED at [15:16:33 2024-12-06]
+[2024-12-06 06:16:33] [1] [INFO] Starting driver session...
+[2024-12-06 06:16:43] [1] [INFO] Driver session started.
+[2024-12-06 06:16:43] [1] [INFO] INFO: opening url 'https://www.myfitnesspal.com/'
+[2024-12-06 06:16:47] [1] [INFO] PASS: element 'compareMenu' is clicked.
+[2024-12-06 06:16:49] [1] [ERROR] TEST [HW06.12 - testSignUp] FAILED at [15:16:49 2024-12-06] - Unable to instantiate page! no such element By.xpath: .//iframe[@id='sp_message_iframe_1164399']
+For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element
+Build info: version: '4.7.0', revision: '0a5b49d16f'
+System info: os.name: 'Linux', os.arch: 'amd64', os.version: '6.1.0-26-amd64', java.version: '23.0.1'
+Driver info: driver.version: unknown
+
+com.zebrunner.carina.utils.factory.ICustomTypePageFactory.initPage(ICustomTypePageFactory.java:162)
+HW_WEB_AUTOMATION.carina.demo.gui.pages.desktop.fitnesspal.HomePage.signup(HomePage.java:21)
+HW_WEB_AUTOMATION.carina.demo.FitnessPal.testSignUp(FitnessPal.java:65)
+java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+java.base/java.lang.reflect.Method.invoke(Method.java:580)
+org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:677)
+org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:221)
+org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:969)
+org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:194)
+org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+org.testng.TestRunner.privateRun(TestRunner.java:829)
+org.testng.TestRunner.run(TestRunner.java:602)
+org.testng.SuiteRunner.runTest(SuiteRunner.java:437)
+org.testng.SuiteRunner.runSequentially(SuiteRunner.java:431)
+org.testng.SuiteRunner.privateRun(SuiteRunner.java:391)
+org.testng.SuiteRunner.run(SuiteRunner.java:330)
+org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+org.testng.TestNG.runSuitesSequentially(TestNG.java:1256)
+org.testng.TestNG.runSuitesLocally(TestNG.java:1176)
+org.testng.TestNG.runSuites(TestNG.java:1099)
+org.testng.TestNG.run(TestNG.java:1067)
+com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)

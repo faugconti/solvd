@@ -1,0 +1,24 @@
+[2024-12-06 06:05:58] [1] [INFO] 
+============= Basic configuration =============
+env=DEMO
+=========== Encryptor configuration ===========
+crypto_key_value=*****
+=========== WebDriver configuration ===========
+url=https://www.myfitnesspal.com/
+selenium_url=http://localhost:4444/wd/hub
+auto_screenshot=true
+localization_encoding=UTF-8
+language=en_US
+-------------- Driver capabilities ------------
+browserName=firefox
+===============================================
+
+[2024-12-06 06:05:59] [1] [WARN] Reporting disabled: using no op test run registrar
+[2024-12-06 06:06:05] [1] [INFO] [TestNG] Running:
+  /home/favio/.cache/JetBrains/IdeaIC2024.2/temp-testng-customsuite.xml
+
+[2024-12-06 06:06:05] [1] [INFO] Set thread-count=1
+[2024-12-06 06:06:05] [1] [INFO] Set data-provider-thread-count=1
+[2024-12-06 06:06:05] [1] [INFO] CARINA_CORE_VERSION: 1.1.3
+[2024-12-06 06:07:08] [1] [INFO] INFO: '**************** Test execution summary ****************'.
+[2024-12-06 06:07:08] [1] [INFO] RESULT #1: TEST [HW06.12 - testSignUp] FAIL [screenshots=file:///media/favio/DATOS/Programacion/Java/solvd/HW06.12/./reports/1733508358950/0ee31b9f-973f-4476-9a6d-887d632e0318/report.html | log=file:///media/favio/DATOS/Programacion/Java/solvd/HW06.12/./reports/1733508358950/0ee31b9f-973f-4476-9a6d-887d632e0318/test.log]
