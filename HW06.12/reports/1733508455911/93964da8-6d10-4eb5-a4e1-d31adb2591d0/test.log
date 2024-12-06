@@ -1,0 +1,106 @@
+[2024-12-06 06:07:42] [1] [WARN] Reporting disabled: using no op test run registrar
+[2024-12-06 06:07:42] [1] [INFO] TEST [HW06.12 - testSignUp] STARTED at [15:07:42 2024-12-06]
+[2024-12-06 06:07:42] [1] [INFO] Starting driver session...
+[2024-12-06 06:07:48] [1] [INFO] Driver session started.
+[2024-12-06 06:07:48] [1] [INFO] INFO: opening url 'https://www.myfitnesspal.com/'
+[2024-12-06 06:07:51] [1] [INFO] PASS: element 'compareMenu' is clicked.
+[2024-12-06 06:07:54] [1] [INFO] PASS: element 'component' is clicked.
+[2024-12-06 06:07:54] [1] [ERROR] Undefined error on capture screenshot detected!
+[2024-12-06 06:07:54] [1] [INFO] PASS: element 'continueButton' is clicked.
+[2024-12-06 06:07:57] [1] [INFO] PASS: element 'inputName' is clicked.
+[2024-12-06 06:07:57] [1] [INFO] PASS: keys 'Jonas' are sent to element 'inputName'.
+[2024-12-06 06:07:58] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:07:59] [1] [INFO] PASS: element 'ExtendedWebElement - [0]' is clicked.
+[2024-12-06 06:08:00] [1] [INFO] PASS: element 'ExtendedWebElement - [3]' is clicked.
+[2024-12-06 06:08:01] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:08:02] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:08:04] [1] [INFO] PASS: element 'ExtendedWebElement - [0]' is clicked.
+[2024-12-06 06:08:05] [1] [INFO] PASS: element 'ExtendedWebElement - [1]' is clicked.
+[2024-12-06 06:08:05] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:08:07] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:08:08] [1] [INFO] PASS: element 'ExtendedWebElement - [1]' is clicked.
+[2024-12-06 06:08:09] [1] [INFO] PASS: element 'ExtendedWebElement - [2]' is clicked.
+[2024-12-06 06:08:10] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:08:11] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:08:11] [1] [WARN] returned first but found 2 elements by xpath: By.tagName: p
+[2024-12-06 06:08:11] [1] [WARN] returned first but found 2 elements by xpath: By.tagName: p
+[2024-12-06 06:08:11] [1] [WARN] returned first but found 2 elements by xpath: By.tagName: p
+[2024-12-06 06:08:11] [1] [INFO] PASS: element 'ExtendedWebElement - [2]' is clicked.
+[2024-12-06 06:08:12] [1] [WARN] returned first but found 2 elements by xpath: By.tagName: p
+[2024-12-06 06:08:12] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:08:14] [1] [INFO] PASS: element 'inputMale' is clicked.
+[2024-12-06 06:08:14] [1] [INFO] PASS: element 'calendar' is clicked.
+[2024-12-06 06:08:15] [1] [INFO] PASS: keys '01/01/1980' are sent to element 'calendar'.
+[2024-12-06 06:08:15] [1] [INFO] PASS: element 'countrySelector' is clicked.
+[2024-12-06 06:08:23] [1] [INFO] PASS: element 'ExtendedWebElement - [218]' is clicked.
+[2024-12-06 06:08:24] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:08:27] [1] [INFO] PASS: element 'By.xpath: (//button[@type='button'])[2]' is clicked.
+[2024-12-06 06:08:27] [1] [INFO] PASS: element 'By.xpath: (//input[@type='radio'])[1]' is clicked.
+[2024-12-06 06:08:28] [1] [INFO] PASS: element 'By.xpath: //Button//p[contains(text(),'Done')]' is clicked.
+[2024-12-06 06:08:28] [1] [INFO] PASS: element 'currentWeightInput' is clicked.
+[2024-12-06 06:08:28] [1] [INFO] PASS: keys '72.0' are sent to element 'currentWeightInput'.
+[2024-12-06 06:08:29] [1] [INFO] PASS: element 'goalWeightInput' is clicked.
+[2024-12-06 06:08:29] [1] [INFO] PASS: keys '70.0' are sent to element 'goalWeightInput'.
+[2024-12-06 06:08:30] [1] [INFO] PASS: element 'switchBtn' is clicked.
+[2024-12-06 06:08:30] [1] [INFO] PASS: element 'centimeters' is clicked.
+[2024-12-06 06:08:31] [1] [INFO] PASS: element 'doneBtn' is clicked.
+[2024-12-06 06:08:32] [1] [INFO] PASS: element 'heightInput' is clicked.
+[2024-12-06 06:08:32] [1] [INFO] PASS: keys '178.0' are sent to element 'heightInput'.
+[2024-12-06 06:08:33] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:08:35] [1] [INFO] PASS: element 'ExtendedWebElement - [1]' is clicked.
+[2024-12-06 06:08:35] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:08:37] [1] [INFO] PASS: element 'emailInput' is clicked.
+[2024-12-06 06:08:37] [1] [INFO] PASS: keys 'mrm86756@kisoq.com' are sent to element 'emailInput'.
+[2024-12-06 06:08:38] [1] [INFO] PASS: element 'passwordInput' is clicked.
+[2024-12-06 06:08:38] [1] [INFO] PASS: keys '1234567890abc' are sent to element 'passwordInput'.
+[2024-12-06 06:08:39] [1] [INFO] PASS: element 'checkbox' is clicked.
+[2024-12-06 06:08:39] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:08:41] [1] [INFO] PASS: element 'usernameInput' is clicked.
+[2024-12-06 06:08:41] [1] [INFO] PASS: keys 'RaOBIH1244' are sent to element 'usernameInput'.
+[2024-12-06 06:08:42] [1] [INFO] PASS: element 'nextBtn' is clicked.
+[2024-12-06 06:08:47] [1] [INFO] INFO: opening url 'https://www.myfitnesspal.com/account/login'
+[2024-12-06 06:09:08] [1] [ERROR] FAIL: click - waitCondition for element 'emailInput (By.id: email)' not satisfied!
+[2024-12-06 06:09:08] [1] [ERROR] TEST [HW06.12 - testSignUp] FAILED at [15:09:08 2024-12-06] - no such element By.id: email
+For documentation on this error, please visit: https://selenium.dev/exceptions/#no_such_element
+Build info: version: '4.7.0', revision: '0a5b49d16f'
+System info: os.name: 'Linux', os.arch: 'amd64', os.version: '6.1.0-26-amd64', java.version: '23.0.1'
+Driver info: driver.version: unknown
+
+com.zebrunner.carina.webdriver.locator.ExtendedElementLocator.findElement(ExtendedElementLocator.java:157)
+org.openqa.selenium.support.pagefactory.internal.LocatingElementHandler.invoke(LocatingElementHandler.java:39)
+jdk.proxy2/jdk.proxy2.$Proxy91.click(Unknown Source)
+com.zebrunner.carina.webdriver.decorator.ExtendedWebElement$3.doClick(ExtendedWebElement.java:1537)
+com.zebrunner.carina.webdriver.decorator.ExtendedWebElement.executeAction(ExtendedWebElement.java:1397)
+com.zebrunner.carina.webdriver.decorator.ExtendedWebElement.overrideAction(ExtendedWebElement.java:1531)
+com.zebrunner.carina.webdriver.decorator.ExtendedWebElement.doAction(ExtendedWebElement.java:1510)
+com.zebrunner.carina.webdriver.decorator.ExtendedWebElement.doAction(ExtendedWebElement.java:1487)
+com.zebrunner.carina.webdriver.decorator.ExtendedWebElement.click(ExtendedWebElement.java:416)
+com.zebrunner.carina.webdriver.decorator.ExtendedWebElement.click(ExtendedWebElement.java:406)
+com.zebrunner.carina.webdriver.decorator.ExtendedWebElement.click(ExtendedWebElement.java:397)
+HW_WEB_AUTOMATION.carina.demo.gui.pages.desktop.fitnesspal.LoginPage.doLogin(LoginPage.java:27)
+HW_WEB_AUTOMATION.carina.demo.FitnessPal.testSignUp(FitnessPal.java:88)
+java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+java.base/java.lang.reflect.Method.invoke(Method.java:580)
+org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:677)
+org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:221)
+org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:969)
+org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:194)
+org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+org.testng.TestRunner.privateRun(TestRunner.java:829)
+org.testng.TestRunner.run(TestRunner.java:602)
+org.testng.SuiteRunner.runTest(SuiteRunner.java:437)
+org.testng.SuiteRunner.runSequentially(SuiteRunner.java:431)
+org.testng.SuiteRunner.privateRun(SuiteRunner.java:391)
+org.testng.SuiteRunner.run(SuiteRunner.java:330)
+org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:95)
+org.testng.TestNG.runSuitesSequentially(TestNG.java:1256)
+org.testng.TestNG.runSuitesLocally(TestNG.java:1176)
+org.testng.TestNG.runSuites(TestNG.java:1099)
+org.testng.TestNG.run(TestNG.java:1067)
+com.intellij.rt.testng.IDEARemoteTestNG.run(IDEARemoteTestNG.java:65)
+com.intellij.rt.testng.RemoteTestNGStarter.main(RemoteTestNGStarter.java:105)
