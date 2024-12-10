@@ -21,7 +21,7 @@ public class InstallationPage extends InstallationPageBase{
 
     @Override
     public boolean isPageOpened(){
-        return installBtn.isPresent();
+        return installBtn.isPresent(10);
     }
     @Override
     public boolean matchNames(String query){

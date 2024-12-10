@@ -34,10 +34,10 @@ public class StorePage extends StorePageBase {
 
     @Override
     public boolean isPageOpened(){
-        return moreBtn.isPresent() &&
-                menuIcon.isPresent() &&
-                followedTitle.isPresent() &&
-                recommendedTitle.isPresent();
+        return moreBtn.isPresent(10) &&
+                menuIcon.isPresent(10) &&
+                followedTitle.isPresent(10) &&
+                recommendedTitle.isPresent(10);
     }
 
     @Override

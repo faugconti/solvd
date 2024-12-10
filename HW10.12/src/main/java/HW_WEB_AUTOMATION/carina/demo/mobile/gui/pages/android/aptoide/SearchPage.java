@@ -26,7 +26,7 @@ public class SearchPage extends SearchPageBase implements IAndroidUtils{
 
     @Override
     public boolean isPageOpened(){
-        return searchBar.isPresent();
+        return searchBar.isPresent(10);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class SearchPage extends SearchPageBase implements IAndroidUtils{
     public boolean isSearchPositive(){
 
         try{
-            return validResults.isPresent();
+            return validResults.isPresent(10);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

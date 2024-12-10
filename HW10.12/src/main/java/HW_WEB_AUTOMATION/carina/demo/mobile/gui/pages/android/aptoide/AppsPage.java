@@ -37,10 +37,10 @@ public class AppsPage extends AppsPageBase{
 
     @Override
     public boolean isPageOpened(){
-        return updateBtn.isPresent() &&
-                menuIcon.isPresent() &&
-                titleInstalled.isPresent() &&
-                titleUpdates.isPresent();
+        return updateBtn.isPresent(10) &&
+                menuIcon.isPresent(10) &&
+                titleInstalled.isPresent(10) &&
+                titleUpdates.isPresent(10);
     }
 
 

@@ -47,9 +47,9 @@ public class HomePage extends HomePageBase implements IAndroidUtils{
 
     @Override
     public boolean isPageOpened(){
-        return editorTitle.isPresent()
-                && moreBtn.isPresent()
-                && gamesAppsBar.isPresent();
+        return editorTitle.isPresent(10)
+                && moreBtn.isPresent(10)
+                && gamesAppsBar.isPresent(10);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class HomePage extends HomePageBase implements IAndroidUtils{
 
     private boolean checkForTitle(ExtendedWebElement element){
         swipe(element,5);
-        return  element.isPresent();
+        return  element.isPresent(10);
     }
 
     @Override

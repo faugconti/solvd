@@ -27,8 +27,8 @@ public class EditorialPage extends EditorialPageBase{
 
     @Override
     public boolean isPageOpened(){
-        return appContainer.isPresent() &&
-                menuIcon.isPresent();
+        return appContainer.isPresent(10) &&
+                menuIcon.isPresent(10);
     }
 
     @Override
