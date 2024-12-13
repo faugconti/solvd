@@ -1,6 +1,7 @@
 package HW_WEB_AUTOMATION.carina.demo.gui.pages.desktop;
 
-import HW_WEB_AUTOMATION.carina.demo.gui.pages.common._LoginBasePage;
+import HW_WEB_AUTOMATION.carina.demo.gui.pages.common.LoginBasePage;
+import HW_WEB_AUTOMATION.carina.demo.gui.pages.common.enums.LoginInputType;
 import com.zebrunner.carina.utils.factory.DeviceType;
 import com.zebrunner.carina.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.By;
@@ -9,32 +10,32 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = _LoginBasePage.class)
-public class _LoginPage extends _LoginBasePage {
+import java.util.List;
 
-    @FindBy(xpath = "//input[@type='email']")
-    private ExtendedWebElement emailField;
+@DeviceType(pageType = DeviceType.Type.DESKTOP, parentClass = LoginBasePage.class)
+public class LoginPage extends LoginBasePage {
 
-    @FindBy(xpath = "//input[@type='password']")
-    private ExtendedWebElement passwordField;
 
     @FindBy(xpath = "//div[contains(@class,'login-userPanel_Btn')]")
     private ExtendedWebElement loginPanel;
 
-    public _LoginPage(WebDriver driver) {
+    public LoginPage(WebDriver driver) {
         super(driver);
         setPageURL("/login");
     }
     @Override
-    public void setPasswordField(String password){
-        passwordField.click();
-        passwordField.type(password);
+    public void writeInputField(LoginInputType operation, String payload){
+        List<ExtendedWebElement> elements = findExtendedWebElements(By.xpath("//form[@class='login']//input"));
+        switch (operation){
+            case USERNAME:
+                elements.get(0).click();
+                elements.get(0).type(payload);
+            case PASSWORD:
+                elements.get(1).click();
+                elements.get(1).type(payload);
+        }
     }
-    @Override
-    public void setEmailField(String email){
-        emailField.click();
-        emailField.type(email);
-    }
+
     @Override
     public boolean isLoggedIn(){
 
